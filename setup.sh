@@ -58,3 +58,7 @@ cat /opt/hadoop/etc/hadoop/yarn-site.xml
 echo "/opt/hadoop/etc/hadoop/mapred-site.xml"
 cat /opt/hadoop/etc/hadoop/mapred-site.xml
 
+
+echo "/opt/hadoop/etc/hadoop/hadoop-env.sh"
+cat /opt/hadoop/etc/hadoop/hadoop-env.sh
+
