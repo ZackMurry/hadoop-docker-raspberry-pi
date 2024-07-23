@@ -10,7 +10,17 @@ if [ -z $NODE_NAME ] ; then
   exit 1
 fi
 
+
 echo "Creating $NODE_NAME as $NODE_TYPE"
+
+# Format: 192.168.1.0;192.168.1.1;IP;IP
+WORKER_IPS=${WORKER_IPS//;/$'\n'}  # change the semicolons to white space
+i=1
+for ip in $WORKER_IPS
+do
+    echo "worker$i IP: $ip"
+    i=$((i+1))
+done
 
 mkdir /opt/hadoop/hdfs/$NODE_TYPE
 
