@@ -37,3 +37,24 @@ cat /opt/hadoop/etc/hadoop/yarn-site.xml
 echo "/opt/hadoop/etc/hadoop/mapred-site.xml"
 cat /opt/hadoop/etc/hadoop/mapred-site.xml
 
+cd /opt/hadoop/etc/hadoop
+
+echo "Inserting new files..."
+
+mv /usr/src/app/core-site.xml .
+mv /usr/src/app/hdfs-site.xml .
+mv /usr/src/app/yarn-site.xml .
+mv /usr/src/app/mapred-site.xml .
+
+echo "/opt/hadoop/etc/hadoop/core-site.xml"
+cat /opt/hadoop/etc/hadoop/core-site.xml
+
+echo "/opt/hadoop/etc/hadoop/hdfs-site.xml"
+cat /opt/hadoop/etc/hadoop/hdfs-site.xml
+
+echo "/opt/hadoop/etc/hadoop/yarn-site.xml"
+cat /opt/hadoop/etc/hadoop/yarn-site.xml
+
+echo "/opt/hadoop/etc/hadoop/mapred-site.xml"
+cat /opt/hadoop/etc/hadoop/mapred-site.xml
+
