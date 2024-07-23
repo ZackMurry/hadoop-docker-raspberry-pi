@@ -10,7 +10,7 @@ mkdir /opt/hadoop/hdfs/namenode
 chown hduser:hadoop -R /opt/hadoop
 
 ls /root
-echo bashrc_additions.sh >> /root/.bashrc
+cat bashrc_additions.sh >> /root/.bashrc
 source /root/.bashrc
 
 
