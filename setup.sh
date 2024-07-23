@@ -65,7 +65,7 @@ cat /opt/hadoop/etc/hadoop/hadoop-env.sh
 jav_test=$(readlink -f /usr/bin/java | sed "s:bin/java::")
 echo $jav_test
 
-sed -i -e "s/export JAVA_HOME=/export JAVA_HOME=$jav_test/g" /opt/hadoop/etc/hadoop/hadoop-env.sh
+sed -i -e "s:# export JAVA_HOME=:export JAVA_HOME=$jav_test:g" /opt/hadoop/etc/hadoop/hadoop-env.sh
 
 echo "/opt/hadoop/etc/hadoop/hadoop-env.sh"
 cat /opt/hadoop/etc/hadoop/hadoop-env.sh
