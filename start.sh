@@ -15,40 +15,36 @@ if [ ! -f /opt/hadoop/initialized ] ; then
   echo "Creating $NODE_NAME as $NODE_TYPE"
   mkdir /opt/hadoop/hdfs/$NODE_TYPE
 
+  if [ -z $NODES ] ; then
+    # First IP is master
+    echo "ERROR: No nodes defined. Define NODE in the format \"HOSTNAME:IP;HOSTNAME:IP;HOSTNAME:IP\""
+    exit 1
+  fi
+  NODES=${NODES//;/$'\n'}  # change the semicolons to white space
+  i=0
+  echo "/opt/hadoop/etc/hadoop/workers"
+  cat /opt/hadoop/etc/hadoop/workers
+  for node in $(echo $NODES | tr ";" "\n")
+  do
+      node_name=$(echo $node | cut -f1 -d:)
+      node_ip=$(echo $node | cut -f2 -d:)
+      echo "$node_name available at $node_ip"
+      echo -e "$node_ip\t$node_name" >> /etc/hosts
+      if [ "$NODE_TYPE" = "namenode" -a "$i" -ne 0 ] ; then
+        echo "$node_name" >> /opt/hadoop/etc/hadoop/workers
+      fi
+      i=$((i+1))
+  done
+  cat /opt/hadoop/etc/hadoop/workers
+  echo "/etc/hosts"
+  cat /etc/hosts
+
 fi
-
-echo HOSTNAME
-hostname
-echo HOSTNAME
-
 
 cd /opt/hadoop
 
 if [ "$NODE_TYPE" = "namenode" ] ; then
-  if [ -z $NODE_IPS ] ; then
-    # First IP is host
-    echo "ERROR: No workers. Define NODE_IPS in the format \"IP;IP;IP\""
-    exit 1
-  fi
   if [ ! -f /opt/hadoop/initialized ] ; then
-    NODE_IPS=${NODE_IPS//;/$'\n'}  # change the semicolons to white space
-    i=0
-    echo "/opt/hadoop/etc/hadoop/workers"
-    cat /opt/hadoop/etc/hadoop/workers
-    for ip in $NODE_IPS
-    do
-        if [ "$i" -eq 0  ] ; then
-          i=1
-          continue
-        fi
-        echo "worker$i IP: $ip"
-        echo "worker$i" >> /opt/hadoop/etc/hadoop/workers
-        echo -e "$ip\tworker$i" >> /etc/hosts
-        i=$((i+1))
-    done
-    cat /opt/hadoop/etc/hadoop/workers
-    echo "/etc/hosts"
-    cat /etc/hosts
     bin/hdfs namenode -format
   fi
   echo "Starting namenode"
@@ -59,6 +55,7 @@ elif [ "$NODE_TYPE" = "datanode" ] ; then
   echo "Starting data node"
 else
   echo "ERROR: Unknown node type $NODE_TYPE"
+  exit 1
 fi
 
 
