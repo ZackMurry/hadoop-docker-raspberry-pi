@@ -17,22 +17,30 @@ if [ ! -f /opt/hadoop/initialized ] ; then
 
 fi
 
+echo HOSTNAME
+hostname
+echo HOSTNAME
 
 
 cd /opt/hadoop
 
 if [ "$NODE_TYPE" = "namenode" ] ; then
-  if [ -z $WORKER_IPS ] ; then
-    echo "ERROR: No workers. Define WORKER_IPS in the format \"IP;IP;IP\""
+  if [ -z $NODE_IPS ] ; then
+    # First IP is host
+    echo "ERROR: No workers. Define NODE_IPS in the format \"IP;IP;IP\""
     exit 1
   fi
   if [ ! -f /opt/hadoop/initialized ] ; then
-    WORKER_IPS=${WORKER_IPS//;/$'\n'}  # change the semicolons to white space
-    i=1
+    NODE_IPS=${NODE_IPS//;/$'\n'}  # change the semicolons to white space
+    i=0
     echo "/opt/hadoop/etc/hadoop/workers"
     cat /opt/hadoop/etc/hadoop/workers
-    for ip in $WORKER_IPS
+    for ip in $NODE_IPS
     do
+        if [ "$i" -eq 0  ] ; then
+          i=1
+          continue
+        fi
         echo "worker$i IP: $ip"
         echo "worker$i" >> /opt/hadoop/etc/hadoop/workers
         echo -e "$ip\tworker$i" >> /etc/hosts
@@ -47,6 +55,10 @@ if [ "$NODE_TYPE" = "namenode" ] ; then
   sbin/start-dfs.sh
   sbin/start-yarn.sh
   bin/hdfs dfsadmin -report
+elif [ "$NODE_TYPE" = "datanode" ] ; then
+  echo "Starting data node"
+else
+  echo "ERROR: Unknown node type $NODE_TYPE"
 fi
 
 
