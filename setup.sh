@@ -5,9 +5,6 @@ adduser --ingroup hadoop --gecos "" --disabled-password hduser
 chpasswd <<< "hduser:mypassword"
 ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -P ""
 
-mkdir -p /opt/hadoop/hdfs
-mkdir /opt/hadoop/hdfs/namenode
-chown hduser:hadoop -R /opt/hadoop
 
 ls /root
 cat bashrc_additions.sh >> /root/.bashrc
@@ -19,5 +16,14 @@ tar -xzf /usr/src/app/hadoop-3.4.0.tar.gz -C /opt
 
 mv /opt/hadoop-3.4.0 /opt/hadoop
 
+mkdir -p /opt/hadoop/hdfs
+mkdir /opt/hadoop/hdfs/namenode
+chown hduser:hadoop -R /opt/hadoop
+
+cd /opt/hadoop
+
 ls /opt/hadoop
+
+
+
 
