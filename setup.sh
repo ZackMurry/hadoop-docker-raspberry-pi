@@ -15,7 +15,9 @@ source /root/.bashrc
 
 
 wget https://dlcdn.apache.org/hadoop/common/hadoop-3.4.0/hadoop-3.4.0.tar.gz
-tar -xzf /usr/src/app/hadoop-3.4.0.tar.gz -C /opt/hadoop
+tar -xzf /usr/src/app/hadoop-3.4.0.tar.gz -C /opt
+
+mv /opt/hadoop-3.4.0 /opt/hadoop
 
 ls /opt/hadoop
 
