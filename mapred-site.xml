@@ -2,7 +2,7 @@
 <configuration>
     <property>
         <name>mapreduce.job.tracker</name>
-        <value>master:5431</value>
+        <value>master:30005</value>
     </property>
     <property>
         <name>mapred.framework.name</name>

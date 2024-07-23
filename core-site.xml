@@ -3,11 +3,11 @@
 <configuration>
     <property>
         <name>fs.default.name</name>
-        <value>hdfs://master:9000/</value>
+        <value>hdfs://master:30006/</value>
     </property>
     <property>
         <name>fs.default.FS</name>
-        <value>hdfs://master:9000/</value>
+        <value>hdfs://master:30006/</value>
     </property>
 </configuration>
 
