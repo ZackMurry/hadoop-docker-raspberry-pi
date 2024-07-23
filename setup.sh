@@ -25,5 +25,15 @@ cd /opt/hadoop
 ls /opt/hadoop
 
 
+echo "/opt/hadoop/etc/hadoop/core-site.xml"
+cat /opt/hadoop/etc/hadoop/core-site.xml
 
+echo "/opt/hadoop/etc/hadoop/hdfs-site.xml"
+cat /opt/hadoop/etc/hadoop/hdfs-site.xml
+
+echo "/opt/hadoop/etc/hadoop/yarn-site.xml"
+cat /opt/hadoop/etc/hadoop/yarn-site.xml
+
+echo "/opt/hadoop/etc/hadoop/mapred-site.xml"
+cat /opt/hadoop/etc/hadoop/mapred-site.xml
 
