@@ -5,7 +5,8 @@ RUN apk add --no-cache openssh
 RUN apk --no-cache add openjdk11 --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
 
 RUN addgroup hadoop
-RUN adduser --ingroup hadoop hduser
+RUN adduser --ingroup hadoop --gecos "" --disabled-password hduser
+RUN chpasswd <<< "hduser:mypassword"
 RUN ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -P ""
 
 RUN mkdir -p /opt/hadoop/hdfs
