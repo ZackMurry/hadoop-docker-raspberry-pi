@@ -17,7 +17,6 @@ tar -xzf /usr/src/app/hadoop-3.4.0.tar.gz -C /opt
 mv /opt/hadoop-3.4.0 /opt/hadoop
 
 mkdir -p /opt/hadoop/hdfs
-mkdir /opt/hadoop/hdfs/namenode
 chown hduser:hadoop -R /opt/hadoop
 
 cd /opt/hadoop
@@ -70,9 +69,8 @@ sed -i -e "s:# export JAVA_HOME=:export JAVA_HOME=$jav_test:g" /opt/hadoop/etc/h
 echo "/opt/hadoop/etc/hadoop/hadoop-env.sh"
 cat /opt/hadoop/etc/hadoop/hadoop-env.sh
 
-
-cd /opt/hadoop
-bin/hdfs namenode -format
+#cd /opt/hadoop
+#bin/hdfs namenode -format
 
 # todo: namenode and datanode images
 

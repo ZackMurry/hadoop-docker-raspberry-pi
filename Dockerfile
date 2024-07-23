@@ -11,5 +11,7 @@ COPY . .
 
 RUN bash setup.sh
 
-CMD sleep infinity
+WORKDIR /usr/src/app
+
+CMD bash start.sh
 
