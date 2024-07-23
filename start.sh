@@ -67,3 +67,9 @@ fi
 
 touch /opt/hadoop/initialized
 
+# Start SSHd on port 30022
+mkdir -p /run/sshd && chmod 755 /run/sshd
+/usr/sbin/sshd
+
+
+
