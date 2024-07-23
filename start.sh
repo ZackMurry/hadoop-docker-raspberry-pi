@@ -1,20 +1,24 @@
 # Configure namenode/datanode
 
+if [ -z $FLOTO_DEVICE_UUID ] ; then
+  echo "ERROR: Expected FLOTO_DEVICE_UUID to be defined"
+  exit 1
+fi
+
+device_host="${FLOTO_DEVICE_UUID: -7}"
+echo "Device host: $device_host"
+
 master_name=$(echo $NODES | cut -f1 -d:)
 echo "Master name: $master_name"
-echo "HOSTNAME"
-hostname
-echo "HOSTNAME"
-this_name=$(hostname)
 
-if [ "$master_name" -eq "$this_name" ] ; then
+if [ "$master_name" = "$device_host" ] ; then
   node_type="namenode"  
 else
   node_type="datanode"
 fi
 
 if [ ! -f /opt/hadoop/initialized ] ; then
-  echo "Creating $this_name as $node_type"
+  echo "Creating $device_host as $node_type"
   mkdir /opt/hadoop/hdfs/$node_type
 
   if [ -z $NODES ] ; then
