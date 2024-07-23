@@ -1,7 +1,8 @@
-FROM ubuntu:20.04
+FROM alpine 3:14
 
-RUN apt-get update
-RUN apt-get install -y openjdk-17-jdk
+RUN apk update
+RUN apk add --no-cache openssh
+RUN apk --no-cache add openjdk11 --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
 
 RUN addgroup hadoop
 RUN adduser --ingroup hadoop hduser
