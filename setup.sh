@@ -5,10 +5,18 @@ adduser --ingroup hadoop --gecos "" --disabled-password hduser
 chpasswd <<< "hduser:mypassword"
 ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -P ""
 
+rc-update add sshd
+rc-status
+rc-service sshd start
+
+cat /etc/ssh/sshd_config
+
+rc-service sshd restart
 
 ls /root
 cat bashrc_additions.sh >> /root/.bashrc
 source /root/.bashrc
+
 
 
 wget https://dlcdn.apache.org/hadoop/common/hadoop-3.4.0/hadoop-3.4.0.tar.gz
