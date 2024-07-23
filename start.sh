@@ -11,26 +11,44 @@ if [ -z $NODE_NAME ] ; then
 fi
 
 
-echo "Creating $NODE_NAME as $NODE_TYPE"
+if [ ! -f /opt/hadoop/initialized ] ; then
+  echo "Creating $NODE_NAME as $NODE_TYPE"
+  mkdir /opt/hadoop/hdfs/$NODE_TYPE
 
-# Format: 192.168.1.0;192.168.1.1;IP;IP
-WORKER_IPS=${WORKER_IPS//;/$'\n'}  # change the semicolons to white space
-i=1
-for ip in $WORKER_IPS
-do
-    echo "worker$i IP: $ip"
-    i=$((i+1))
-done
+fi
 
-mkdir /opt/hadoop/hdfs/$NODE_TYPE
+
 
 cd /opt/hadoop
 
 if [ "$NODE_TYPE" = "namenode" ] ; then
+  if [ -z $WORKER_IPS ] ; then
+    echo "ERROR: No workers. Define WORKER_IPS in the format \"IP;IP;IP\""
+    exit 1
+  fi
+  if [ ! -f /opt/hadoop/initialized ] ; then
+    WORKER_IPS=${WORKER_IPS//;/$'\n'}  # change the semicolons to white space
+    i=1
+    echo "/opt/hadoop/etc/hadoop/workers"
+    cat /opt/hadoop/etc/hadoop/workers
+    for ip in $WORKER_IPS
+    do
+        echo "worker$i IP: $ip"
+        echo "worker$i" >> /opt/hadoop/etc/hadoop/workers
+        echo -e "$ip\tworker$i" >> /etc/hosts
+        i=$((i+1))
+    done
+    cat /opt/hadoop/etc/hadoop/workers
+    echo "/etc/hosts"
+    cat /etc/hosts
+    bin/hdfs namenode -format
+  fi
   echo "Starting namenode"
-  bin/hdfs namenode -format
   sbin/start-dfs.sh
   sbin/start-yarn.sh
   bin/hdfs dfsadmin -report
 fi
+
+
+touch /opt/hadoop/initialized
 
