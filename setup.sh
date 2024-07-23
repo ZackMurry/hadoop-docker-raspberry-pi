@@ -14,6 +14,6 @@ cat bashrc_additions.sh >> /root/.bashrc
 source /root/.bashrc
 
 
-curl -L https://www.apache.org/dyn/closer.cgi/hadoop/common/hadoop-3.4.0/hadoop-3.4.0.tar.gz | tar -xvzf
+curl -L https://www.apache.org/dyn/closer.cgi/hadoop/common/hadoop-3.4.0/hadoop-3.4.0.tar.gz -O - | tar -xvz
 ls
 
