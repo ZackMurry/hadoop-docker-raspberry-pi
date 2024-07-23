@@ -1,19 +1,21 @@
 # Configure namenode/datanode
 
-if [ -z $NODE_TYPE ] ; then
-  echo "ERROR: NODE_TYPE not set"
-  exit 1
-fi
+master_name=$(echo $NODES | cut -f1 -d:)
+echo "Master name: $master_name"
+echo "HOSTNAME"
+hostname
+echo "HOSTNAME"
+this_name=$(hostname)
 
-if [ -z $NODE_NAME ] ; then
-  echo "ERROR: NODE_NAME not set"
-  exit 1
+if [ "$master_name" -eq "$this_name" ] ; then
+  node_type="namenode"  
+else
+  node_type="datanode"
 fi
-
 
 if [ ! -f /opt/hadoop/initialized ] ; then
-  echo "Creating $NODE_NAME as $NODE_TYPE"
-  mkdir /opt/hadoop/hdfs/$NODE_TYPE
+  echo "Creating $this_name as $node_type"
+  mkdir /opt/hadoop/hdfs/$node_type
 
   if [ -z $NODES ] ; then
     # First IP is master
@@ -30,7 +32,7 @@ if [ ! -f /opt/hadoop/initialized ] ; then
       node_ip=$(echo $node | cut -f2 -d:)
       echo "$node_name available at $node_ip"
       echo -e "$node_ip\t$node_name" >> /etc/hosts
-      if [ "$NODE_TYPE" = "namenode" -a "$i" -ne 0 ] ; then
+      if [ "$node_type" = "namenode" -a "$i" -ne 0 ] ; then
         echo "$node_name" >> /opt/hadoop/etc/hadoop/workers
       fi
       i=$((i+1))
@@ -43,7 +45,7 @@ fi
 
 cd /opt/hadoop
 
-if [ "$NODE_TYPE" = "namenode" ] ; then
+if [ "$node_type" = "namenode" ] ; then
   if [ ! -f /opt/hadoop/initialized ] ; then
     bin/hdfs namenode -format
   fi
@@ -51,10 +53,10 @@ if [ "$NODE_TYPE" = "namenode" ] ; then
   sbin/start-dfs.sh
   sbin/start-yarn.sh
   bin/hdfs dfsadmin -report
-elif [ "$NODE_TYPE" = "datanode" ] ; then
+elif [ "$node_type" = "datanode" ] ; then
   echo "Starting data node"
 else
-  echo "ERROR: Unknown node type $NODE_TYPE"
+  echo "ERROR: Unknown node type $node_type"
   exit 1
 fi
 
