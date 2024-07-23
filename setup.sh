@@ -3,7 +3,9 @@
 addgroup hadoop
 adduser --ingroup hadoop --gecos "" --disabled-password hduser
 chpasswd <<< "hduser:mypassword"
-ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -P ""
+mkdir -p /home/hduser/.ssh
+ssh-keygen -t rsa -b 4096 -f /home/hduser/.ssh/id_rsa -P ""
+
 
 #rc-update add sshd
 #rc-status
@@ -11,6 +13,7 @@ ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -P ""
 
 sed -i -e "s/#Port 22:Port 30022/g" /etc/ssh/sshd_config
 cat /etc/ssh/sshd_config
+ssh-keygen -A
 
 #rc-service sshd restart
 

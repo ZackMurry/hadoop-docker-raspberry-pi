@@ -13,5 +13,6 @@ RUN bash setup.sh
 
 WORKDIR /usr/src/app
 
+USER hduser
 CMD bash start.sh
 

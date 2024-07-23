@@ -5,7 +5,7 @@ if [ -z $FLOTO_DEVICE_UUID ] ; then
   exit 1
 fi
 
-device_host="${FLOTO_DEVICE_UUID: -7}"
+device_host="${FLOTO_DEVICE_UUID:0:7}"
 echo "Device host: $device_host"
 
 master_name=$(echo $NODES | cut -f1 -d:)
@@ -49,6 +49,33 @@ fi
 
 cd /opt/hadoop
 
+
+
+
+ls -R ~/.ssh
+
+chmod 700 ~/.ssh
+chmod 644 ~/.ssh/id_rsa.pub
+chmod 600 ~/.ssh/id_rsa
+chmod 755 /home/hduser
+
+# Start SSHd on port 30022
+mkdir -p /run/sshd && chmod 755 /run/sshd
+/usr/sbin/sshd
+
+echo "Waiting for other servers to come online..."
+sleep 60s
+
+if [ ! -f /opt/hadoop/initialized ] ; then
+  for node in $(echo $NODES | tr ";" "\n")
+  do
+      node_name=$(echo $node | cut -f1 -d:)
+      node_ip=$(echo $node | cut -f2 -d:)
+      echo "Sharing SSH key with hduser@$node_ip on $node_name"
+    echo "mypassword" | sshpass ssh-copy-id -f -i ~/.ssh/id_rsa.pub hduser@$node_ip
+  done
+fi
+
 if [ "$node_type" = "namenode" ] ; then
   if [ ! -f /opt/hadoop/initialized ] ; then
     bin/hdfs namenode -format
@@ -57,19 +84,9 @@ if [ "$node_type" = "namenode" ] ; then
   sbin/start-dfs.sh
   sbin/start-yarn.sh
   bin/hdfs dfsadmin -report
-elif [ "$node_type" = "datanode" ] ; then
-  echo "Starting data node"
 else
-  echo "ERROR: Unknown node type $node_type"
-  exit 1
+  echo "Initialized data node"
 fi
 
-
 touch /opt/hadoop/initialized
-
-# Start SSHd on port 30022
-mkdir -p /run/sshd && chmod 755 /run/sshd
-/usr/sbin/sshd
-
-
 
