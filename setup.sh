@@ -9,6 +9,7 @@ rc-update add sshd
 rc-status
 rc-service sshd start
 
+sed -i -e "s/#Port 22:Port 30022/g" /etc/ssh/sshd_config
 cat /etc/ssh/sshd_config
 
 rc-service sshd restart
