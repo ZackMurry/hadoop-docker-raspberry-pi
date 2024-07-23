@@ -1,7 +1,7 @@
 FROM ubuntu:20.04
 
-RUN apt update
-RUN apt install openjdk-17-jdk
+RUN apt-get update
+RUN apt-get install -y openjdk-17-jdk
 
 RUN addgroup hadoop
 RUN adduser --ingroup hadoop hduser
