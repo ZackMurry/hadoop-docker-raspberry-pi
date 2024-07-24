@@ -1,5 +1,7 @@
 # Configure namenode/datanode
 
+iperf3 -s
+
 if [ -z $FLOTO_DEVICE_UUID ] ; then
   echo "ERROR: Expected FLOTO_DEVICE_UUID to be defined"
   exit 1
@@ -94,7 +96,6 @@ ssh -p 30022 hduser@10.42.153.1 ls /
 
 #cat /var/log/auth.log
 
-iperf3 -s -p 30001
 
 
 #echo "Waiting for other servers to come online..."
@@ -134,6 +135,5 @@ runuser -u hduser -- touch /opt/hadoop/initialized
 while true
 do
   echo "Staying active..."
-  cat /var/log/auth.log
   sleep 10s
 done
