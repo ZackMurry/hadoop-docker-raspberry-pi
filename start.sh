@@ -47,6 +47,14 @@ if [ ! -f /opt/hadoop/initialized ] ; then
 
 fi
 
+# Replace master with actual hostname in config.xml files
+cd /opt/hadoop/etc/hadoop
+sed -i -e "s/master/$master_name/g" core-site.xml
+sed -i -e "s/master/$master_name/g" yarn-site.xml
+sed -i -e "s/master/$master_name/g" hdfs-site.xml
+sed -i -e "s/master/$master_name/g" mapred-site.xml
+
+
 cd /opt/hadoop
 
 ls -R /home/hduser/.ssh
@@ -68,12 +76,19 @@ echo "Waiting for other servers to come online..."
 sleep 60s
 
 if [ ! -f /opt/hadoop/initialized ] ; then
+  found_self=0
   for node in $(echo $NODES | tr ";" "\n")
   do
     node_name=$(echo $node | cut -f1 -d:)
+    if [ "$found_self" -eq 0 -a "$node_name" != "$device_host" ] ; then
+      echo "Skipping ssh-copy-id for $node_name because it starts after this node"
+      continue
+    fi
+    found_self=1
     node_ip=$(echo $node | cut -f2 -d:)
     echo "Sharing SSH key with hduser@$node_ip on $node_name"
     echo "mypassword" | runuser -u hduser -- sshpass ssh-copy-id -f -i /home/hduser/.ssh/id_rsa.pub hduser@$node_ip
+    ssh hduser@$node_ip cat .ssh/id_rsa.pub | tee -a /home/hduser/.ssh/authorized_keys
   done
 fi
 
