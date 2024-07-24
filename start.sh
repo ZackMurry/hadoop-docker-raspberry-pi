@@ -58,7 +58,7 @@ sed -i -e "s/master/$master_name/g" mapred-site.xml
 cd /opt/hadoop
 
 ls -R /home/hduser/.ssh
-cat "ls /etc/ssh"
+echo "ls /etc/ssh"
 ls /etc/ssh
 
 chown hduser:hadoop /home/hduser/.ssh
@@ -70,7 +70,7 @@ chmod 755 /home/hduser
 # Start SSHd on port 30022
 mkdir -p /run/sshd
 chmod 755 /run/sshd
-/usr/sbin/sshd
+/usr/sbin/sshd -p 30022
 
 echo "Waiting for other servers to come online..."
 sleep 60s
