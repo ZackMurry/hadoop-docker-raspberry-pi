@@ -75,6 +75,9 @@ chmod 755 /run/sshd
 sleep 5
 
 # Is sshd running?
+
+cat /etc/ssh/sshd_config
+
 netstat -tupan
 telnet localhost 30022
 
