@@ -49,19 +49,17 @@ fi
 
 cd /opt/hadoop
 
+ls -R /home/hduser/.ssh
 
-
-
-ls -R ~/.ssh
-
-runuser -u hduser chmod 700 ~/.ssh
-runuser -u hduser chmod 644 ~/.ssh/id_rsa.pub
-runuser -u hduser chmod 600 ~/.ssh/id_rsa
-runuser -u hduser chmod 755 /home/hduser
+chown hduser:hadoop /home/hduser/.ssh
+chmod 700 /home/hduser/.ssh
+chmod 644 /home/hduser/.ssh/id_rsa.pub
+chmod 600 /home/hduser/.ssh/id_rsa
+chmod 755 /home/hduser
 
 # Start SSHd on port 30022
 mkdir -p /run/sshd
-runuser -u hduser chmod 755 /run/sshd
+chmod 755 /run/sshd
 /usr/sbin/sshd
 
 echo "Waiting for other servers to come online..."
@@ -70,10 +68,10 @@ sleep 60s
 if [ ! -f /opt/hadoop/initialized ] ; then
   for node in $(echo $NODES | tr ";" "\n")
   do
-      node_name=$(echo $node | cut -f1 -d:)
-      node_ip=$(echo $node | cut -f2 -d:)
-      echo "Sharing SSH key with hduser@$node_ip on $node_name"
-    echo "mypassword" | runuser -u hduser sshpass ssh-copy-id -f -i ~/.ssh/id_rsa.pub hduser@$node_ip
+    node_name=$(echo $node | cut -f1 -d:)
+    node_ip=$(echo $node | cut -f2 -d:)
+    echo "Sharing SSH key with hduser@$node_ip on $node_name"
+    echo "mypassword" | runuser -u hduser sshpass ssh-copy-id -f -i /home/hduser/.ssh/id_rsa.pub hduser@$node_ip
   done
 fi
 
