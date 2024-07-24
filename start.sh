@@ -92,8 +92,9 @@ ssh -p 30022 hduser@10.42.153.0 ls /
 echo "ssh -p 30022 hduser@10.42.153.1 ls /"
 ssh -p 30022 hduser@10.42.153.1 ls /
 
-iptables -S
-ufw app list
+cat /var/log/auth.log
+
+iperf3 -s -p 30001
 
 
 #echo "Waiting for other servers to come online..."
@@ -133,5 +134,6 @@ runuser -u hduser -- touch /opt/hadoop/initialized
 while true
 do
   echo "Staying active..."
+  cat /var/log/auth.log
   sleep 10s
 done
