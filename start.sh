@@ -76,6 +76,7 @@ sleep 5
 
 # Is sshd running?
 netstat -tupan
+telnet localhost 30022
 
 echo "ssh -p 30022 hduser@localhost ls /"
 ssh -p 30022 hduser@localhost ls /
@@ -123,3 +124,8 @@ fi
 
 runuser -u hduser -- touch /opt/hadoop/initialized
 
+while true
+do
+  echo "Staying active..."
+  sleep 10s
+done
