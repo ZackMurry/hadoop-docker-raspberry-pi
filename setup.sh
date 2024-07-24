@@ -12,9 +12,15 @@ runuser -u hduser -- ssh-keygen -t rsa -b 4096 -f /home/hduser/.ssh/id_rsa -P ""
 #rc-status
 #rc-service sshd start
 
-sed -i -e "s/#Port 22:Port 30022/g" /etc/ssh/sshd_config
+sed -i -e "s/#Port 22/Port 30022/g" /etc/ssh/sshd_config
 cat /etc/ssh/sshd_config
-runuser -u hduser -- ssh-keygen -A
+#runuser -u hduser -- ssh-keygen -A
+echo "ls /etc/ssh"
+ls /etc/ssh
+echo "Creating ssh hostkey"
+ssh-keygen -A
+echo "ls /etc/ssh"
+ls /etc/ssh
 
 #rc-service sshd restart
 

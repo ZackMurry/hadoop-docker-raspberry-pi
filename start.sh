@@ -50,6 +50,8 @@ fi
 cd /opt/hadoop
 
 ls -R /home/hduser/.ssh
+cat "ls /etc/ssh"
+ls /etc/ssh
 
 chown hduser:hadoop /home/hduser/.ssh
 chmod 700 /home/hduser/.ssh
