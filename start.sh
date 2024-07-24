@@ -76,7 +76,7 @@ sleep 5
 
 # Is sshd running?
 
-cat /etc/ssh/sshd_config
+#cat /etc/ssh/sshd_config
 
 netstat -tupan
 telnet localhost 30022
@@ -92,7 +92,7 @@ ssh -p 30022 hduser@10.42.153.0 ls /
 echo "ssh -p 30022 hduser@10.42.153.1 ls /"
 ssh -p 30022 hduser@10.42.153.1 ls /
 
-cat /var/log/auth.log
+#cat /var/log/auth.log
 
 iperf3 -s -p 30001
 
