@@ -70,7 +70,8 @@ chmod 755 /home/hduser
 # Start SSHd on port 30022
 mkdir -p /run/sshd
 chmod 755 /run/sshd
-/usr/sbin/sshd -p 30022
+# temporarily don't use daemon to see if there are any errors
+/usr/sbin/sshd -p 30022 -D
 
 echo "Waiting for other servers to come online..."
 sleep 60s
