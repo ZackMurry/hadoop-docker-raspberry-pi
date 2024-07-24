@@ -112,4 +112,8 @@ fi
 
 runuser -u hduser -- touch /opt/hadoop/initialized
 
-sleep infinity
+while true
+do
+  echo "Staying active..."
+  sleep 10s
+done
