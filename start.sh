@@ -1,6 +1,6 @@
 # Configure namenode/datanode
 
-iperf3 -s
+#iperf3 -s
 
 if [ -z $FLOTO_DEVICE_UUID ] ; then
   echo "ERROR: Expected FLOTO_DEVICE_UUID to be defined"
