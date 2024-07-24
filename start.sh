@@ -92,6 +92,9 @@ ssh -p 30022 hduser@10.42.153.0 ls /
 echo "ssh -p 30022 hduser@10.42.153.1 ls /"
 ssh -p 30022 hduser@10.42.153.1 ls /
 
+iptables -S
+ufw app list
+
 
 #echo "Waiting for other servers to come online..."
 #sleep 60s
