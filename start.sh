@@ -70,11 +70,15 @@ chmod 755 /home/hduser
 # Start SSHd on port 30022
 mkdir -p /run/sshd
 chmod 755 /run/sshd
-# temporarily don't use daemon to see if there are any errors
-/usr/sbin/sshd -p 30022 -D
+/usr/sbin/sshd -p 30022
 
-echo "Waiting for other servers to come online..."
-sleep 60s
+sleep 5
+
+# Is sshd running?
+netstat -tupan
+
+#echo "Waiting for other servers to come online..."
+#sleep 60s
 
 if [ ! -f /opt/hadoop/initialized ] ; then
   found_self=0

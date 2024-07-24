@@ -1,5 +1,7 @@
 #!/bin/bash
 
+netstat -v
+
 addgroup hadoop
 adduser --ingroup hadoop --gecos "" --disabled-password hduser
 chpasswd <<< "hduser:mypassword"
