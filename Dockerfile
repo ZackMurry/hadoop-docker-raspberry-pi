@@ -1,7 +1,7 @@
 FROM alpine:3.14
 
 RUN apk update
-RUN apk add --no-cache openssh bash tar curl
+RUN apk add --no-cache openssh bash tar curl sshpass runuser
 RUN apk --no-cache add openjdk11 --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
 
 
@@ -13,6 +13,5 @@ RUN bash setup.sh
 
 WORKDIR /usr/src/app
 
-USER hduser
 CMD bash start.sh
 
