@@ -77,6 +77,18 @@ sleep 5
 # Is sshd running?
 netstat -tupan
 
+echo "ssh -p 30022 hduser@localhost ls /"
+ssh -p 30022 hduser@localhost ls /
+echo "ssh -p 30022 hduser@127.0.0.1 ls /"
+ssh -p 30022 hduser@127.0.0.1 ls /
+echo "ssh -p 30022 hduser@10.188.2.111 ls /"
+ssh -p 30022 hduser@10.188.2.111 ls /
+echo "ssh -p 30022 hduser@10.42.153.0 ls /"
+ssh -p 30022 hduser@10.42.153.0 ls /
+echo "ssh -p 30022 hduser@10.42.153.1 ls /"
+ssh -p 30022 hduser@10.42.153.1 ls /
+
+
 #echo "Waiting for other servers to come online..."
 #sleep 60s
 
