@@ -19,7 +19,7 @@ fi
 
 if [ ! -f /opt/hadoop/initialized ] ; then
   echo "Creating $device_host as $node_type"
-  runuser -u hduser mkdir /opt/hadoop/hdfs/$node_type
+  runuser -u hduser -- mkdir /opt/hadoop/hdfs/$node_type
 
   if [ -z $NODES ] ; then
     # First IP is master
@@ -71,21 +71,21 @@ if [ ! -f /opt/hadoop/initialized ] ; then
     node_name=$(echo $node | cut -f1 -d:)
     node_ip=$(echo $node | cut -f2 -d:)
     echo "Sharing SSH key with hduser@$node_ip on $node_name"
-    echo "mypassword" | runuser -u hduser sshpass ssh-copy-id -f -i /home/hduser/.ssh/id_rsa.pub hduser@$node_ip
+    echo "mypassword" | runuser -u hduser -- sshpass ssh-copy-id -f -i /home/hduser/.ssh/id_rsa.pub hduser@$node_ip
   done
 fi
 
 if [ "$node_type" = "namenode" ] ; then
   if [ ! -f /opt/hadoop/initialized ] ; then
-    runuser -u hduser bin/hdfs namenode -format
+    runuser -u hduser -- bin/hdfs namenode -format
   fi
   echo "Starting namenode"
-  runuser -u hduser sbin/start-dfs.sh
-  runuser -u hduser sbin/start-yarn.sh
-  runuser -u hduser bin/hdfs dfsadmin -report
+  runuser -u hduser -- sbin/start-dfs.sh
+  runuser -u hduser -- sbin/start-yarn.sh
+  runuser -u hduser -- bin/hdfs dfsadmin -report
 else
   echo "Initialized data node"
 fi
 
-runuser -u hduser touch /opt/hadoop/initialized
+runuser -u hduser -- touch /opt/hadoop/initialized
 
