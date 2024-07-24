@@ -76,6 +76,7 @@ sleep 5
 
 # Is sshd running?
 netstat -tupan
+telnet localhost 30022
 
 #echo "Waiting for other servers to come online..."
 #sleep 60s
@@ -111,3 +112,4 @@ fi
 
 runuser -u hduser -- touch /opt/hadoop/initialized
 
+sleep infinity
