@@ -22,6 +22,7 @@ echo "Creating ssh hostkey"
 ssh-keygen -A
 echo "ls /etc/ssh"
 ls /etc/ssh
+ssh-keygen -t rsa -b 4096 -f /root/.ssh/id_rsa -P ""
 
 #rc-service sshd restart
 
