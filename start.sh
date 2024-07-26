@@ -88,7 +88,7 @@ telnet localhost 30022
 #echo "ssh -p 30022 hduser@127.0.0.1 ls /"
 #ssh -p 30022 hduser@127.0.0.1 ls /
 echo "ssh -p 30022 hduser@10.188.2.111 ls /"
-runuser -u hduser -- ssh -o StrictHostKeyChecking=no -p 30022 hduser@10.188.2.111 ls /
+runuser -u hduser -- ssh -o StrictHostKeyChecking=accept-new -p 30022 hduser@10.188.2.111 ls /
 #echo "ssh -p 30022 hduser@10.42.153.0 ls /"
 #ssh -p 30022 hduser@10.42.153.0 ls /
 #echo "ssh -p 30022 hduser@10.42.153.1 ls /"
