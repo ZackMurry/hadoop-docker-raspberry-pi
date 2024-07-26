@@ -33,6 +33,7 @@ source /home/hduser/.bashrc
 wget https://dlcdn.apache.org/hadoop/common/hadoop-3.4.0/hadoop-3.4.0-aarch64.tar.gz
 tar -xzf /usr/src/app/hadoop-3.4.0-aarch64.tar.gz -C /opt
 
+ls /opt
 mv /opt/hadoop-3.4.0-aarch64 /opt/hadoop
 
 mkdir -p /opt/hadoop/hdfs
