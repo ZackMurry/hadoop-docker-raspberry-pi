@@ -30,8 +30,8 @@ if [ ! -f /opt/hadoop/initialized ] ; then
   fi
   NODES=${NODES//;/$'\n'}  # change the semicolons to white space
   i=0
-  echo "/opt/hadoop/etc/hadoop/workers"
-  cat /opt/hadoop/etc/hadoop/workers
+  #echo "/opt/hadoop/etc/hadoop/workers"
+  #cat /opt/hadoop/etc/hadoop/workers
   for node in $(echo $NODES | tr ";" "\n")
   do
       node_name=$(echo $node | cut -f1 -d:)
@@ -43,11 +43,13 @@ if [ ! -f /opt/hadoop/initialized ] ; then
       fi
       i=$((i+1))
   done
-  cat /opt/hadoop/etc/hadoop/workers
-  echo "/etc/hosts"
-  cat /etc/hosts
+  #cat /opt/hadoop/etc/hadoop/workers
+  #echo "/etc/hosts"
+  #cat /etc/hosts
 
 fi
+
+# Todo: just refer to hosts using "master", "worker1", etc instead of ids
 
 # Replace master with actual hostname in config.xml files
 cd /opt/hadoop/etc/hadoop
@@ -59,9 +61,9 @@ sed -i -e "s/master/$master_name/g" mapred-site.xml
 
 cd /opt/hadoop
 
-ls -R /home/hduser/.ssh
-echo "ls /etc/ssh"
-ls /etc/ssh
+#ls -R /home/hduser/.ssh
+#echo "ls /etc/ssh"
+#ls /etc/ssh
 
 chown hduser:hadoop /home/hduser/.ssh
 chmod 700 /home/hduser/.ssh
@@ -80,15 +82,15 @@ sleep 5
 
 #cat /etc/ssh/sshd_config
 
-netstat -tupan
-telnet localhost 30022
+#netstat -tupan
+#telnet localhost 30022
 
 #echo "ssh -p 30022 hduser@localhost ls /"
 #ssh -p 30022 hduser@localhost ls /
 #echo "ssh -p 30022 hduser@127.0.0.1 ls /"
 #ssh -p 30022 hduser@127.0.0.1 ls /
-echo "ssh -p 30022 hduser@10.188.2.111 ls /"
-runuser -u hduser -- ssh -o StrictHostKeyChecking=accept-new -p 30022 hduser@10.188.2.111 ls /
+#echo "ssh -p 30022 hduser@10.188.2.111 ls /"
+#runuser -u hduser -- ssh -o StrictHostKeyChecking=accept-new -p 30022 hduser@10.188.2.111 ls /
 #echo "ssh -p 30022 hduser@10.42.153.0 ls /"
 #ssh -p 30022 hduser@10.42.153.0 ls /
 #echo "ssh -p 30022 hduser@10.42.153.1 ls /"
@@ -135,5 +137,5 @@ runuser -u hduser -- touch /opt/hadoop/initialized
 while true
 do
   echo "Staying active..."
-  sleep 10s
+  sleep 60s
 done
