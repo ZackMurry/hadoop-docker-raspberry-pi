@@ -49,7 +49,7 @@ if [ ! -f /opt/hadoop/initialized ] ; then
 
   if [ -z $NODES ] ; then
     # First IP is master
-    echo "ERROR: No nodes defined. Define NODE in the format \"HOSTNAME:IP;HOSTNAME:IP;HOSTNAME:IP\""
+    echo "ERROR: No nodes defined. Define NODES in the format \"HOSTNAME:IP;HOSTNAME:IP;HOSTNAME:IP\""
     exit 1
   fi
   NODES=${NODES//;/$'\n'}  # change the semicolons to white space

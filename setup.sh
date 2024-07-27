@@ -3,6 +3,8 @@
 addgroup hadoop
 adduser --ingroup hadoop --gecos "" --disabled-password hduser
 chpasswd <<< "hduser:mypassword"
+passwd -u hduser
+
 mkdir -p /home/hduser/.ssh
 chown hduser:hadoop /home/hduser/.ssh
 runuser -u hduser -- ssh-keygen -t rsa -b 4096 -f /home/hduser/.ssh/id_rsa -P ""
