@@ -10,23 +10,6 @@ if [ ! -f /opt/hadoop/initialized ] ; then
   mkdir -p /opt/hadoop/hdfs
   chown hduser:hadoop -R /opt/hadoop
 
-  cd /opt/hadoop
-
-  ls /opt/hadoop
-
-
-  echo "/opt/hadoop/etc/hadoop/core-site.xml"
-  cat /opt/hadoop/etc/hadoop/core-site.xml
-
-  echo "/opt/hadoop/etc/hadoop/hdfs-site.xml"
-  cat /opt/hadoop/etc/hadoop/hdfs-site.xml
-
-  echo "/opt/hadoop/etc/hadoop/yarn-site.xml"
-  cat /opt/hadoop/etc/hadoop/yarn-site.xml
-
-  echo "/opt/hadoop/etc/hadoop/mapred-site.xml"
-  cat /opt/hadoop/etc/hadoop/mapred-site.xml
-
   cd /opt/hadoop/etc/hadoop
 
   echo "Inserting new files..."
@@ -36,18 +19,9 @@ if [ ! -f /opt/hadoop/initialized ] ; then
   mv /usr/src/app/yarn-site.xml .
   mv /usr/src/app/mapred-site.xml .
 
-  echo "/opt/hadoop/etc/hadoop/core-site.xml"
-  cat /opt/hadoop/etc/hadoop/core-site.xml
-
-  echo "/opt/hadoop/etc/hadoop/hdfs-site.xml"
-  cat /opt/hadoop/etc/hadoop/hdfs-site.xml
-
-  echo "/opt/hadoop/etc/hadoop/yarn-site.xml"
-  cat /opt/hadoop/etc/hadoop/yarn-site.xml
-
-  echo "/opt/hadoop/etc/hadoop/mapred-site.xml"
-  cat /opt/hadoop/etc/hadoop/mapred-site.xml
 fi
+
+cd /opt/hadoop
 
 
 #echo "/opt/hadoop/etc/hadoop/hadoop-env.sh"
