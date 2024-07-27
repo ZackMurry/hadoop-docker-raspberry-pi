@@ -6,6 +6,10 @@ chpasswd <<< "hduser:mypassword"
 mkdir -p /home/hduser/.ssh
 chown hduser:hadoop /home/hduser/.ssh
 runuser -u hduser -- ssh-keygen -t rsa -b 4096 -f /home/hduser/.ssh/id_rsa -P ""
+runuser -u hduser -- chmod 700 /home/hduser/.ssh
+runuser -u hduser -- chmod 644 /home/hduser/id_rsa.pub
+runuser -u hduser -- chmod 600 /home/hduser/id_rsa
+runuser -u hduser -- chmod 755 /home/hduser
 
 
 #rc-update add sshd
