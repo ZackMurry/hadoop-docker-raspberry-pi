@@ -1,6 +1,57 @@
 # Configure namenode/datanode
 
 #iperf3 -s
+if [ ! -f /opt/hadoop/initialized ] ; then
+  tar -xzf /usr/src/app/hadoop-3.4.0-aarch64.tar.gz -C /opt
+
+  ls /opt
+  mv /opt/hadoop-3.4.0 /opt/hadoop
+
+  mkdir -p /opt/hadoop/hdfs
+  chown hduser:hadoop -R /opt/hadoop
+
+  cd /opt/hadoop
+
+  ls /opt/hadoop
+
+
+  echo "/opt/hadoop/etc/hadoop/core-site.xml"
+  cat /opt/hadoop/etc/hadoop/core-site.xml
+
+  echo "/opt/hadoop/etc/hadoop/hdfs-site.xml"
+  cat /opt/hadoop/etc/hadoop/hdfs-site.xml
+
+  echo "/opt/hadoop/etc/hadoop/yarn-site.xml"
+  cat /opt/hadoop/etc/hadoop/yarn-site.xml
+
+  echo "/opt/hadoop/etc/hadoop/mapred-site.xml"
+  cat /opt/hadoop/etc/hadoop/mapred-site.xml
+
+  cd /opt/hadoop/etc/hadoop
+
+  echo "Inserting new files..."
+
+  mv /usr/src/app/core-site.xml .
+  mv /usr/src/app/hdfs-site.xml .
+  mv /usr/src/app/yarn-site.xml .
+  mv /usr/src/app/mapred-site.xml .
+
+  echo "/opt/hadoop/etc/hadoop/core-site.xml"
+  cat /opt/hadoop/etc/hadoop/core-site.xml
+
+  echo "/opt/hadoop/etc/hadoop/hdfs-site.xml"
+  cat /opt/hadoop/etc/hadoop/hdfs-site.xml
+
+  echo "/opt/hadoop/etc/hadoop/yarn-site.xml"
+  cat /opt/hadoop/etc/hadoop/yarn-site.xml
+
+  echo "/opt/hadoop/etc/hadoop/mapred-site.xml"
+  cat /opt/hadoop/etc/hadoop/mapred-site.xml
+fi
+
+
+#echo "/opt/hadoop/etc/hadoop/hadoop-env.sh"
+#cat /opt/hadoop/etc/hadoop/hadoop-env.sh
 
 if [ -z $FLOTO_DEVICE_UUID ] ; then
   echo "ERROR: Expected FLOTO_DEVICE_UUID to be defined"
@@ -9,7 +60,6 @@ fi
 
 device_host="${FLOTO_DEVICE_UUID:0:7}"
 echo "Device host: $device_host"
-
 master_name=$(echo $NODES | cut -f1 -d:)
 echo "Master name: $master_name"
 
