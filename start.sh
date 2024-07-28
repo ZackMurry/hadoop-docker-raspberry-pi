@@ -142,7 +142,7 @@ if [ ! -f /opt/hadoop/initialized ] ; then
     found_self=1
     node_ip=$(echo $node | cut -f2 -d:)
     echo "Sharing SSH key with hduser@$node_ip on $node_name"
-    echo "mypassword" | runuser -u hduser -- sshpass ssh-copy-id -f -i /home/hduser/.ssh/id_rsa.pub -p 30022 hduser@$node_ip
+    echo "mypassword" | runuser -u hduser -- sshpass ssh-copy-id -i /home/hduser/.ssh/id_rsa.pub -p 30022 hduser@$node_ip
     echo "ls -la /home/hduser/.ssh"
     runuser -u hduser -- ls -la /home/hduser/.ssh
     echo "cat /home/hduser/.ssh/authorized_keys"
