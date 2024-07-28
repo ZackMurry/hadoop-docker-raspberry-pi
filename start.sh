@@ -127,6 +127,9 @@ sleep 5
 #echo "Waiting for other servers to come online..."
 #sleep 60s
 
+echo "ls -la /home/hduser/.ssh"
+runuser -u hduser -- ls -la /home/hduser/.ssh
+
 if [ ! -f /opt/hadoop/initialized ] ; then
   found_self=0
   for node in $(echo $NODES | tr ";" "\n")
