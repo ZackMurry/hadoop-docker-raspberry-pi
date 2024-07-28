@@ -203,6 +203,22 @@ if [ ! -f /opt/hadoop/initialized ] ; then
   done
 fi
 
+echo "Testing SSH to localhost"
+runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@localhost "ls /"
+echo "Testing SSH to nodes"
+found_self=0
+for node in $(echo $NODES | tr ";" "\n")
+do
+  node_name=$(echo $node | cut -f1 -d:)
+  if [ "$found_self" -eq 0 -a "$node_name" != "$device_host" ] ; then
+    echo "Skipping ssh-copy-id for $node_name because it starts after this node"
+    continue
+  fi
+  found_self=1
+  runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$node_name "cat /etc/hostname"
+done
+echo "Testing SSH to nodes (done)"
+
 #echo "cat /home/hduser/sshd_log.txt"
 #cat /home/hduser/sshd_log.txt
 
