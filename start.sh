@@ -237,7 +237,6 @@ echo "Testing SSH to nodes (done)"
 #cat /home/hduser/sshd_log.txt
 
 source /home/hduser/.bashrc
-runuser -u hduser -- source /home/hduser/.bashrc
 
 export JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:bin/java::")
 echo "Set JAVA_HOME to $JAVA_HOME"
