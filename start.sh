@@ -126,6 +126,13 @@ sleep 5
 
 #echo "Waiting for other servers to come online..."
 #sleep 60s
+echo "Testing password ssh auth"
+runuser -u hduser -- sshpass -p "password" ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$node_ip "ls /"
+
+echo "cat /home/hduser/sshd_log.txt"
+cat /home/hduser/sshd_log.txt
+
+exit 0
 
 echo "ls -la /home/hduser/.ssh"
 runuser -u hduser -- ls -la /home/hduser/.ssh

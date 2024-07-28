@@ -2,6 +2,7 @@
 
 addgroup hadoop
 adduser --ingroup hadoop --gecos "" --disabled-password hduser
+#useradd -m -p "mypassword" -s /bin/bash hduser
 chpasswd <<< "hduser:mypassword"
 passwd -u hduser
 
