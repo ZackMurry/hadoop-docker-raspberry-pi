@@ -191,20 +191,38 @@ if [ ! -f /opt/hadoop/initialized ] ; then
     runuser -u hduser -- cat /home/hduser/.ssh/authorized_keys
     echo "Reversing ssh-copy-id..."
     (runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$node_ip "cat .ssh/id_rsa.pub") | tee -a /home/hduser/.ssh/authorized_keys
+    echo "cat /home/hduser/.ssh/authorized_keys"
+    cat /home/hduser/.ssh/authorized_keys
 
   done
 fi
 
-echo "cat /home/hduser/sshd_log.txt"
-cat /home/hduser/sshd_log.txt
+#echo "cat /home/hduser/sshd_log.txt"
+#cat /home/hduser/sshd_log.txt
+
+source /home/hduser/.bashrc
+runuser -u hduser -- source /home/hduser/.bashrc
+
+export JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:bin/java::")
+echo "Set JAVA_HOME to $JAVA_HOME"
+export HADOOP_HOME=/opt/hadoop
+export HADOOP_INSTALL=$HADOOP_HOME
+export YARN_HOME=$HADOOP_HOME
+export PATH=$PATH:$HADOOP_INSTALL/bin
+export HADOOP_COMMON_LIB_NATIVE_DIR=$HADOOP_HOME/lib/native
+export HADOOP_OPTS="-Djava.library.path=$HADOOP_HOME/lib"
 
 if [ "$node_type" = "namenode" ] ; then
   if [ ! -f /opt/hadoop/initialized ] ; then
+    echo "Formatting namenode"
     runuser -u hduser -- bin/hdfs namenode -format
   fi
   echo "Starting namenode"
+  echo "Starting dfs"
   runuser -u hduser -- sbin/start-dfs.sh
+  echo "Starting yarn"
   runuser -u hduser -- sbin/start-yarn.sh
+  echo "Generating report"
   runuser -u hduser -- bin/hdfs dfsadmin -report
 else
   echo "Initialized data node"
