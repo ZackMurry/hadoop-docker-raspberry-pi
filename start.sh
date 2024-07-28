@@ -98,7 +98,7 @@ chmod 755 /home/hduser
 # Start SSHd on port 30022
 mkdir -p /run/sshd
 chmod 755 /run/sshd
-/usr/sbin/sshd -p 30022
+/usr/sbin/sshd -p 30022 -d > /home/hduser/sshd_log.txt 2>&1 &
 
 sleep 5
 
@@ -152,8 +152,12 @@ if [ ! -f /opt/hadoop/initialized ] ; then
     runuser -u hduser -- cat /home/hduser/.ssh/authorized_keys
     echo "Reversing ssh-copy-id..."
     runuser -u hduser -- ssh -p 30022 -o StrictHostKeyCHecking=accept-new hduser@$node_ip cat .ssh/id_rsa.pub | tee -a /home/hduser/.ssh/authorized_keys
+
   done
 fi
+
+echo "cat /home/hduser/sshd_log.txt"
+cat /home/hduser/sshd_log.txt
 
 if [ "$node_type" = "namenode" ] ; then
   if [ ! -f /opt/hadoop/initialized ] ; then
