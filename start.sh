@@ -212,6 +212,10 @@ cat /home/hduser/.ssh/authorized_keys
 
 ls -la /home/hduser/.ssh
 
+echo "Restarting sshd"
+killall -9 sshd
+/usr/sbin/sshd -p 30022
+
 echo "Testing SSH to localhost"
 runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@localhost "ls /"
 echo "Testing SSH to nodes"
