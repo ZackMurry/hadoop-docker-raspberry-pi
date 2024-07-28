@@ -27,6 +27,7 @@ runuser -u hduser -- ls -la /home/hduser/.ssh
 
 sed -i -e "s/#Port 22/Port 30022/g" /etc/ssh/sshd_config
 sed -i -e "s/#ListenAddress 0.0.0.0/ListenAddress 0.0.0.0/g" /etc/ssh/sshd_config
+sed -i -e "s/#PasswordAuthentication yes/PasswordAuthentication yes/g" /etc/ssh/sshd_config
 cat /etc/ssh/sshd_config
 #runuser -u hduser -- ssh-keygen -A
 echo "ls /etc/ssh"
