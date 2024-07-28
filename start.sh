@@ -217,7 +217,7 @@ killall -9 sshd
 /usr/sbin/sshd -p 30022
 
 echo "Testing SSH to localhost"
-runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@localhost "ls /"
+runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@localhost "cat /etc/hostname"
 echo "Testing SSH to nodes"
 found_self=0
 for node in $(echo $NODES | tr ";" "\n")
