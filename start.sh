@@ -51,12 +51,12 @@ if [ ! -f /opt/hadoop/initialized ] ; then
   sed -i -e "s/#PubkeyAuthentication yes/PubkeyAuthentication yes/g" /etc/ssh/sshd_config
   #cat /etc/ssh/sshd_config
   #runuser -u hduser -- ssh-keygen -A
-  echo "ls /etc/ssh"
-  ls /etc/ssh
-  echo "Creating ssh hostkey"
+  #echo "ls /etc/ssh"
+  #ls /etc/ssh
+  #echo "Creating ssh hostkey"
   ssh-keygen -A
-  echo "ls /etc/ssh"
-  ls /etc/ssh
+  #echo "ls /etc/ssh"
+  #ls /etc/ssh
 
 fi
 
@@ -195,16 +195,22 @@ if [ ! -f /opt/hadoop/initialized ] ; then
     #runuser -u hduser -- ls -la /home/hduser/.ssh
     echo "cat /home/hduser/.ssh/authorized_keys"
     runuser -u hduser -- cat /home/hduser/.ssh/authorized_keys
-    echo "Reversing ssh-copy-id..."
-    (runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$node_ip "cat .ssh/id_rsa.pub") | tee -a /home/hduser/.ssh/authorized_keys
+    if [ "$node_name" != "$device_host" ] ; then
+      echo "Reversing ssh-copy-id..."
+      (runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$node_ip "cat .ssh/id_rsa.pub") | tee -a /home/hduser/.ssh/authorized_keys
+    fi
     echo "cat /home/hduser/.ssh/authorized_keys"
     cat /home/hduser/.ssh/authorized_keys
 
   done
 fi
 
+cat /home/hduser/.ssh/id_rsa.pub >> /home/hduser/.ssh/authorized_keys
+
 echo "cat /home/hduser/.ssh/authorized_keys"
 cat /home/hduser/.ssh/authorized_keys
+
+ls -la /home/hduser/.ssh
 
 echo "Testing SSH to localhost"
 runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@localhost "ls /"
@@ -214,10 +220,11 @@ for node in $(echo $NODES | tr ";" "\n")
 do
   node_name=$(echo $node | cut -f1 -d:)
   if [ "$found_self" -eq 0 -a "$node_name" != "$device_host" ] ; then
-    echo "Skipping ssh-copy-id for $node_name because it starts after this node"
+    echo "Skipping SSH test for $node_name"
     continue
   fi
   found_self=1
+  echo "Connecting to $node_name"
   runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$node_name "cat /etc/hostname"
 done
 echo "Testing SSH to nodes (done)"
