@@ -43,7 +43,7 @@ if [ ! -f /opt/hadoop/initialized ] ; then
   sed -i -e "s/#ListenAddress 0.0.0.0/ListenAddress 0.0.0.0/g" /etc/ssh/sshd_config
   sed -i -e "s/#PasswordAuthentication yes/PasswordAuthentication yes/g" /etc/ssh/sshd_config
   sed -i -e "s/#PubkeyAuthentication yes/PubkeyAuthentication yes/g" /etc/ssh/sshd_config
-  cat /etc/ssh/sshd_config
+  #cat /etc/ssh/sshd_config
   #runuser -u hduser -- ssh-keygen -A
   echo "ls /etc/ssh"
   ls /etc/ssh
@@ -131,7 +131,8 @@ chmod 755 /home/hduser
 # Start SSHd on port 30022
 mkdir -p /run/sshd
 chmod 755 /run/sshd
-/usr/sbin/sshd -p 30022 -d > /home/hduser/sshd_log.txt 2>&1 &
+#/usr/sbin/sshd -p 30022 -d > /home/hduser/sshd_log.txt 2>&1 &
+/usr/sbin/sshd -p 30022
 
 sleep 5
 
@@ -189,7 +190,7 @@ if [ ! -f /opt/hadoop/initialized ] ; then
     echo "cat /home/hduser/.ssh/authorized_keys"
     runuser -u hduser -- cat /home/hduser/.ssh/authorized_keys
     echo "Reversing ssh-copy-id..."
-    runuser -u hduser -- ssh -p 30022 -o StrictHostKeyCHecking=accept-new hduser@$node_ip cat .ssh/id_rsa.pub | tee -a /home/hduser/.ssh/authorized_keys
+    (runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$node_ip "cat .ssh/id_rsa.pub") | tee -a /home/hduser/.ssh/authorized_keys
 
   done
 fi
