@@ -19,6 +19,12 @@ if [ ! -f /opt/hadoop/initialized ] ; then
   mv /usr/src/app/yarn-site.xml .
   mv /usr/src/app/mapred-site.xml .
 
+  jav_test=$(readlink -f /usr/bin/java | sed "s:bin/java::")
+  echo $jav_test
+
+  sed -i -e "s:# export JAVA_HOME=:export JAVA_HOME=$jav_test:g" /opt/hadoop/etc/hadoop/hadoop-env.sh
+  echo "export HADOOP_SSH_OPTS=\"-p 30022 -o StrictHostKeyChecking=accept-new\"" >> /opt/hadoop/etc/hadoop/hadoop-env.sh
+
   mkdir -p /home/hduser/.ssh
   chown hduser:hadoop /home/hduser/.ssh
   runuser -u hduser -- ssh-keygen -t rsa -b 4096 -f /home/hduser/.ssh/id_rsa -P ""
