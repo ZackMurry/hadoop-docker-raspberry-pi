@@ -127,7 +127,7 @@ sleep 5
 #echo "Waiting for other servers to come online..."
 #sleep 60s
 echo "Testing password ssh auth"
-runuser -u hduser -- sshpass -p "password" ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$node_ip "ls /"
+runuser -u hduser -- sshpass -p "mypassword" ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$node_ip "ls /"
 
 echo "cat /home/hduser/sshd_log.txt"
 cat /home/hduser/sshd_log.txt
@@ -151,7 +151,7 @@ if [ ! -f /opt/hadoop/initialized ] ; then
     #echo "Testing password SSH"
     #runuser -u hduser -- sshpass -p "mypassword" ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$node_ip ls /
     echo "Manually sharing SSH key with hduser@$node_ip on $node_name"
-    cat /home/hduser/.ssh/id_rsa.pub | runuser -u hduser -- sshpass -p "password" ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$node_ip 'cat >> /home/hduser/.ssh/authorized_keys'
+    cat /home/hduser/.ssh/id_rsa.pub | runuser -u hduser -- sshpass -p "mypassword" ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$node_ip 'cat >> /home/hduser/.ssh/authorized_keys'
     #runuser -u hduser -- sshpass -p "mypasssword" ssh-copy-id -i /home/hduser/.ssh/id_rsa.pub -p 30022 hduser@$node_ip
     #echo "ls -la /home/hduser/.ssh"
     #runuser -u hduser -- ls -la /home/hduser/.ssh
