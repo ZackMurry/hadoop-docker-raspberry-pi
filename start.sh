@@ -203,6 +203,9 @@ if [ ! -f /opt/hadoop/initialized ] ; then
   done
 fi
 
+echo "cat /home/hduser/.ssh/authorized_keys"
+cat /home/hduser/.ssh/authorized_keys
+
 echo "Testing SSH to localhost"
 runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@localhost "ls /"
 echo "Testing SSH to nodes"
