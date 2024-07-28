@@ -8,6 +8,7 @@ passwd -u hduser
 mkdir -p /home/hduser/.ssh
 chown hduser:hadoop /home/hduser/.ssh
 runuser -u hduser -- ssh-keygen -t rsa -b 4096 -f /home/hduser/.ssh/id_rsa -P ""
+runuser -u hduser -- touch /home/hduser/.ssh/authorized_keys
 echo "ls -la /home/hduser/.ssh"
 runuser -u hduser -- ls -la /home/hduser/.ssh
 runuser -u hduser -- chmod 700 /home/hduser/.ssh
