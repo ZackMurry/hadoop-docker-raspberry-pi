@@ -106,7 +106,8 @@ if [ ! -f /opt/hadoop/initialized ] ; then
       fi
       i=$((i+1))
   done
-  #cat /opt/hadoop/etc/hadoop/workers
+  echo "cat /opt/hadoop/etc/hadoop/workers"
+  cat /opt/hadoop/etc/hadoop/workers
   #echo "/etc/hosts"
   #cat /etc/hosts
 
