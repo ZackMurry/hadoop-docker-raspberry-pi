@@ -237,10 +237,10 @@ if [ "$node_type" = "namenode" ] ; then
   fi
   echo "Starting namenode"
   echo "Starting dfs"
-  timeout 180s runuser -u hduser -- bash -x sbin/start-dfs.sh || true
+  timeout 60s runuser -u hduser -- bash -x sbin/start-dfs.sh || true
   netstat -tupan
   echo "Starting yarn"
-  timeout 180s runuser -u hduser -- bash -x sbin/start-yarn.sh || true
+  timeout 60s runuser -u hduser -- bash -x sbin/start-yarn.sh || true
   ls /opt/hadoop/logs
   tail -n +1 /opt/hadoop/logs/*
   netstat -tupan

@@ -32,6 +32,10 @@
         <value>master:50070</value>
     </property>
     <property>
+        <name>dfs.namenode.http-address</name>
+        <value>master:30002</value>
+    </property>
+    <property>
         <name>dfs.replication</name>
         <value>2</value> <!-- Based on the number of workers you have -->
     </property>

@@ -3,11 +3,11 @@
 <configuration>
     <property>
         <name>fs.default.name</name>
-        <value>hdfs://master:9000/</value>
+        <value>hdfs://master:30001/</value>
     </property>
     <property>
         <name>fs.defaultFS</name>
-        <value>hdfs://master:9000/</value>
+        <value>hdfs://master:30001/</value>
     </property>
     <property>
         <name>hadoop.tmp.dir</name>
