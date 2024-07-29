@@ -256,5 +256,6 @@ runuser -u hduser -- touch /opt/hadoop/initialized
 while true
 do
   echo "Staying active..."
+  tail -n +1 /opt/hadoop/logs/*
   sleep 60s
 done
