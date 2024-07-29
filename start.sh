@@ -257,7 +257,7 @@ if [ "$node_type" = "namenode" ] ; then
   fi
   echo "Starting namenode"
   echo "Starting dfs"
-  runuser -u hduser -- sbin/start-dfs.sh
+  runuser -u hduser -- sh -x sbin/start-dfs.sh
   echo "Starting yarn"
   timeout 60s runuser -u hduser -- sh -x sbin/start-yarn.sh
   ls /opt/hadoop/logs
