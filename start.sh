@@ -108,8 +108,6 @@ if [ ! -f /opt/hadoop/initialized ] ; then
       fi
       i=$((i+1))
   done
-  echo "cat /opt/hadoop/etc/hadoop/workers"
-  cat /opt/hadoop/etc/hadoop/workers
   echo "/etc/hosts"
   cat /etc/hosts
 
@@ -120,6 +118,7 @@ fi
 # Replace master with actual hostname in config.xml files
 cd /opt/hadoop/etc/hadoop
 if [ "$node_type" = "namenode" ] ; then
+  echo -e "127.0.0.1\t$master_name" >> /etc/hosts
   sed -i -e "s/master/0.0.0.0/g" core-site.xml
 else
   sed -i -e "s/master/$master_name/g" core-site.xml
@@ -127,6 +126,9 @@ fi
 sed -i -e "s/master/$master_name/g" yarn-site.xml
 sed -i -e "s/master/$master_name/g" hdfs-site.xml
 sed -i -e "s/master/$master_name/g" mapred-site.xml
+
+echo "cat /opt/hadoop/etc/hadoop/workers"
+cat /opt/hadoop/etc/hadoop/workers
 
 #runuser -u hduser -- sed -i -e "s/# quorumjournal nodes (if any)/exit 0/g" /opt/hadoop/start-dfs.sh
 #cat /opt/hadoop/start-dfs.sh
@@ -267,10 +269,13 @@ if [ "$node_type" = "namenode" ] ; then
   echo "Starting namenode"
   echo "Starting dfs"
   runuser -u hduser -- bash -x sbin/start-dfs.sh || true
+  netstat -tupan
   echo "Starting yarn"
   timeout 60s runuser -u hduser -- bash -x sbin/start-yarn.sh || true
   ls /opt/hadoop/logs
+  tail -n +1 /opt/hadoop/logs/*
   netstat -tupan
+  runuser -u hduser -- netstat -tupan
   echo "Generating report"
   runuser -u hduser -- bin/hdfs dfsadmin -report || true
 else
