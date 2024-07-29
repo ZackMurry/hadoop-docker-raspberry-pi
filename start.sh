@@ -122,10 +122,17 @@ fi
 
 # Replace master with actual hostname in config.xml files
 cd /opt/hadoop/etc/hadoop
-sed -i -e "s/master/$master_name/g" core-site.xml
-sed -i -e "s/master/$master_name/g" yarn-site.xml
-sed -i -e "s/master/$master_name/g" hdfs-site.xml
-sed -i -e "s/master/$master_name/g" mapred-site.xml
+if [ "$node_type" = "namenode" ] ; then
+  sed -i -e "s/master/0.0.0.0/g" core-site.xml
+  sed -i -e "s/master/0.0.0.0/g" yarn-site.xml
+  sed -i -e "s/master/0.0.0.0/g" hdfs-site.xml
+  sed -i -e "s/master/0.0.0.0/g" mapred-site.xml
+else
+  sed -i -e "s/master/$master_name/g" core-site.xml
+  sed -i -e "s/master/$master_name/g" yarn-site.xml
+  sed -i -e "s/master/$master_name/g" hdfs-site.xml
+  sed -i -e "s/master/$master_name/g" mapred-site.xml
+fi
 
 
 cd /opt/hadoop
