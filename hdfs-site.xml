@@ -39,6 +39,10 @@
         <name>dfs.namenode.http-address</name>
         <value>master:30012</value>
     </property>
+    <property>
+        <name>dfs.namenode.rpc-address</name>
+        <value>master:30013</value>
+    </property>
     
     <property>
         <name>dfs.replication</name>
