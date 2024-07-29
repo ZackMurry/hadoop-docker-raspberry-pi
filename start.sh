@@ -247,7 +247,7 @@ export PATH=$PATH:$HADOOP_INSTALL/bin
 export HADOOP_COMMON_LIB_NATIVE_DIR=$HADOOP_HOME/lib/native
 export HADOOP_OPTS="-Djava.library.path=$HADOOP_HOME/lib"
 
-mkdir -p /opt/hadoop/logs
+runuser -u hduser -- mkdir -p /opt/hadoop/logs
 
 if [ "$node_type" = "namenode" ] ; then
   if [ ! -f /opt/hadoop/initialized ] ; then
