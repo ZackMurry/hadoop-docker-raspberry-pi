@@ -119,17 +119,17 @@ fi
 
 # Replace master with actual hostname in config.xml files
 cd /opt/hadoop/etc/hadoop
-if [ "$node_type" = "namenode" ] ; then
-  sed -i -e "s/master/0.0.0.0/g" core-site.xml
-  sed -i -e "s/master/0.0.0.0/g" yarn-site.xml
-  sed -i -e "s/master/0.0.0.0/g" hdfs-site.xml
-  sed -i -e "s/master/0.0.0.0/g" mapred-site.xml
-else
-  sed -i -e "s/master/$master_name/g" core-site.xml
-  sed -i -e "s/master/$master_name/g" yarn-site.xml
-  sed -i -e "s/master/$master_name/g" hdfs-site.xml
-  sed -i -e "s/master/$master_name/g" mapred-site.xml
-fi
+#if [ "$node_type" = "namenode" ] ; then
+#  sed -i -e "s/master/0.0.0.0/g" core-site.xml
+#  sed -i -e "s/master/0.0.0.0/g" yarn-site.xml
+#  sed -i -e "s/master/0.0.0.0/g" hdfs-site.xml
+#  sed -i -e "s/master/0.0.0.0/g" mapred-site.xml
+#else
+sed -i -e "s/master/$master_name/g" core-site.xml
+sed -i -e "s/master/$master_name/g" yarn-site.xml
+sed -i -e "s/master/$master_name/g" hdfs-site.xml
+sed -i -e "s/master/$master_name/g" mapred-site.xml
+#fi
 
 runuser -u hduser -- sed -i -e "s/# quorumjournal nodes (if any)/exit 0/g" /opt/hadoop/start-dfs.sh
 cat /opt/hadoop/start-dfs.sh
