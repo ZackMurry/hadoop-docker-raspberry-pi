@@ -98,6 +98,8 @@ if [ ! -f /opt/hadoop/initialized ] ; then
   i=0
   #echo "/opt/hadoop/etc/hadoop/workers"
   #cat /opt/hadoop/etc/hadoop/workers
+  runuser -u hduser -- rm /opt/hadoop/etc/hadoop/workers
+  runuser -u hduser -- touch /opt/hadoop/etc/hadoop/workers
   for node in $(echo $NODES | tr ";" "\n")
   do
       node_name=$(echo $node | cut -f1 -d:)
