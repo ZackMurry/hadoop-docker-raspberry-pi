@@ -44,9 +44,6 @@ if [ ! -f /opt/hadoop/initialized ] ; then
   #runuser -u hduser -- ls -la /home/hduser/.ssh
 
 
-  #rc-update add sshd
-  #rc-status
-  #rc-service sshd start
 
   sed -i -e "s/#Port 22/Port 30022/g" /etc/ssh/sshd_config
   sed -i -e "s/#ListenAddress 0.0.0.0/ListenAddress 0.0.0.0/g" /etc/ssh/sshd_config
