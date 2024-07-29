@@ -29,7 +29,7 @@ if [ ! -f /opt/hadoop/initialized ] ; then
   chown hduser:hadoop /home/hduser/.ssh
   runuser -u hduser -- ssh-keygen -t rsa -b 4096 -f /home/hduser/.ssh/id_rsa -P ""
   runuser -u hduser -- touch /home/hduser/.ssh/authorized_keys
-  echo "ls -la /home/hduser/.ssh"
+  #echo "ls -la /home/hduser/.ssh"
   runuser -u hduser -- ls -la /home/hduser/.ssh
   runuser -u hduser -- chmod 700 /home/hduser/.ssh
   runuser -u hduser -- chmod 644 /home/hduser/.ssh/id_rsa.pub
@@ -37,8 +37,8 @@ if [ ! -f /opt/hadoop/initialized ] ; then
   runuser -u hduser -- chmod 600 /home/hduser/.ssh/id_rsa
   runuser -u hduser -- chmod 600 /home/hduser/.ssh/id_rsa
   runuser -u hduser -- chmod 755 /home/hduser
-  echo "ls -la /home/hduser/.ssh"
-  runuser -u hduser -- ls -la /home/hduser/.ssh
+  #echo "ls -la /home/hduser/.ssh"
+  #runuser -u hduser -- ls -la /home/hduser/.ssh
 
 
   #rc-update add sshd
@@ -256,7 +256,8 @@ if [ "$node_type" = "namenode" ] ; then
   echo "Starting dfs"
   runuser -u hduser -- sbin/start-dfs.sh
   echo "Starting yarn"
-  runuser -u hduser -- sbin/start-yarn.sh
+  timeout 60s runuser -u hduser -- sh -x sbin/start-yarn.sh
+  ls /opt/hadoop/logs
   echo "Generating report"
   runuser -u hduser -- bin/hdfs dfsadmin -report
 else
