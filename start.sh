@@ -262,12 +262,12 @@ if [ "$node_type" = "namenode" ] ; then
   fi
   echo "Starting namenode"
   echo "Starting dfs"
-  runuser -u hduser -- bash -x sbin/start-dfs.sh
+  runuser -u hduser -- bash -x sbin/start-dfs.sh || true
   echo "Starting yarn"
-  timeout 60s runuser -u hduser -- bash -x sbin/start-yarn.sh
+  timeout 60s runuser -u hduser -- bash -x sbin/start-yarn.sh || true
   ls /opt/hadoop/logs
   echo "Generating report"
-  runuser -u hduser -- bin/hdfs dfsadmin -report
+  runuser -u hduser -- bin/hdfs dfsadmin -report || true
 else
   echo "Initialized data node"
 fi
