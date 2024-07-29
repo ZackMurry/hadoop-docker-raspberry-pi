@@ -110,8 +110,8 @@ if [ ! -f /opt/hadoop/initialized ] ; then
   done
   echo "cat /opt/hadoop/etc/hadoop/workers"
   cat /opt/hadoop/etc/hadoop/workers
-  #echo "/etc/hosts"
-  #cat /etc/hosts
+  echo "/etc/hosts"
+  cat /etc/hosts
 
 fi
 
