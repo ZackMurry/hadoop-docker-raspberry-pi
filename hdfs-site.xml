@@ -16,6 +16,31 @@
         <value>master:30001</value>
     </property>
     <property>
+        <name>dfs.namenode.secondary.http-address</name>
+        <value>master:30007</value>
+    </property>
+    <property>
+        <name>dfs.datanode.address</name>
+        <value>master:30008</value>
+    </property>
+    <property>
+        <name>dfs.datanode.http.address</name>
+        <value>master:30009</value>
+    </property>
+    <property>
+        <name>dfs.datanode.https.address</name>
+        <value>master:30010</value>
+    </property>
+    <property>
+        <name>dfs.datanode.ipc.address</name>
+        <value>master:30011</value>
+    </property>
+    <property>
+        <name>dfs.namenode.http-address</name>
+        <value>master:30012</value>
+    </property>
+    
+    <property>
         <name>dfs.replication</name>
         <value>2</value>
     </property>
