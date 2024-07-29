@@ -169,8 +169,8 @@ sleep 5
 #echo "Testing password ssh auth"
 #runuser -u hduser -- sshpass -p "mypassword" ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$node_ip "ls /"
 
-echo "cat /home/hduser/sshd_log.txt"
-cat /home/hduser/sshd_log.txt
+#echo "cat /home/hduser/sshd_log.txt"
+#cat /home/hduser/sshd_log.txt
 
 echo "ls -la /home/hduser/.ssh"
 runuser -u hduser -- ls -la /home/hduser/.ssh
@@ -210,7 +210,7 @@ cat /home/hduser/.ssh/id_rsa.pub >> /home/hduser/.ssh/authorized_keys
 echo "cat /home/hduser/.ssh/authorized_keys"
 cat /home/hduser/.ssh/authorized_keys
 
-ls -la /home/hduser/.ssh
+#ls -la /home/hduser/.ssh
 
 echo "Restarting sshd"
 killall -9 sshd
@@ -246,6 +246,8 @@ export YARN_HOME=$HADOOP_HOME
 export PATH=$PATH:$HADOOP_INSTALL/bin
 export HADOOP_COMMON_LIB_NATIVE_DIR=$HADOOP_HOME/lib/native
 export HADOOP_OPTS="-Djava.library.path=$HADOOP_HOME/lib"
+
+mkdir -p /opt/hadoop/logs
 
 if [ "$node_type" = "namenode" ] ; then
   if [ ! -f /opt/hadoop/initialized ] ; then
