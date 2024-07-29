@@ -236,6 +236,7 @@ if [ "$node_type" = "namenode" ] ; then
     runuser -u hduser -- bin/hdfs namenode -format
   fi
   echo "Starting namenode"
+  bin/hdfs namenode
   echo "Starting dfs"
   timeout 60s runuser -u hduser -- bash -x sbin/start-dfs.sh || true
   netstat -tupan
