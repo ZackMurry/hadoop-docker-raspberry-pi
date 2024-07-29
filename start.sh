@@ -117,12 +117,12 @@ fi
 
 # Replace master with actual hostname in config.xml files
 cd /opt/hadoop/etc/hadoop
-if [ "$node_type" = "namenode" ] ; then
-  echo -e "127.0.0.1\t$master_name" >> /etc/hosts
-  sed -i -e "s/master/0.0.0.0/g" core-site.xml
-else
-  sed -i -e "s/master/$master_name/g" core-site.xml
-fi
+#if [ "$node_type" = "namenode" ] ; then
+echo -e "127.0.0.1\t$master_name" >> /etc/hosts
+  #sed -i -e "s/master/0.0.0.0/g" core-site.xml
+#else
+sed -i -e "s/master/$master_name/g" core-site.xml
+#fi
 sed -i -e "s/master/$master_name/g" yarn-site.xml
 sed -i -e "s/master/$master_name/g" hdfs-site.xml
 sed -i -e "s/master/$master_name/g" mapred-site.xml
@@ -151,38 +151,6 @@ mkdir -p /run/sshd
 chmod 755 /run/sshd
 #/usr/sbin/sshd -p 30022 -d > /home/hduser/sshd_log.txt 2>&1 &
 /usr/sbin/sshd -p 30022
-
-sleep 5
-
-# Is sshd running?
-
-#cat /etc/ssh/sshd_config
-
-#netstat -tupan
-#telnet localhost 30022
-
-#echo "ssh -p 30022 hduser@localhost ls /"
-#ssh -p 30022 hduser@localhost ls /
-#echo "ssh -p 30022 hduser@127.0.0.1 ls /"
-#ssh -p 30022 hduser@127.0.0.1 ls /
-#echo "ssh -p 30022 hduser@10.188.2.111 ls /"
-#runuser -u hduser -- ssh -o StrictHostKeyChecking=accept-new -p 30022 hduser@10.188.2.111 ls /
-#echo "ssh -p 30022 hduser@10.42.153.0 ls /"
-#ssh -p 30022 hduser@10.42.153.0 ls /
-#echo "ssh -p 30022 hduser@10.42.153.1 ls /"
-#ssh -p 30022 hduser@10.42.153.1 ls /
-
-#cat /var/log/auth.log
-
-
-
-#echo "Waiting for other servers to come online..."
-#sleep 60s
-#echo "Testing password ssh auth"
-#runuser -u hduser -- sshpass -p "mypassword" ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$node_ip "ls /"
-
-#echo "cat /home/hduser/sshd_log.txt"
-#cat /home/hduser/sshd_log.txt
 
 echo "ls -la /home/hduser/.ssh"
 runuser -u hduser -- ls -la /home/hduser/.ssh
@@ -260,6 +228,7 @@ export HADOOP_COMMON_LIB_NATIVE_DIR=$HADOOP_HOME/lib/native
 export HADOOP_OPTS="-Djava.library.path=$HADOOP_HOME/lib"
 
 runuser -u hduser -- mkdir -p /opt/hadoop/logs
+runuser -u hduser -- mkdir -p /opt/hadoop/tmp
 
 if [ "$node_type" = "namenode" ] ; then
   if [ ! -f /opt/hadoop/initialized ] ; then
@@ -268,7 +237,7 @@ if [ "$node_type" = "namenode" ] ; then
   fi
   echo "Starting namenode"
   echo "Starting dfs"
-  runuser -u hduser -- bash -x sbin/start-dfs.sh || true
+  timeout 60s runuser -u hduser -- bash -x sbin/start-dfs.sh || true
   netstat -tupan
   echo "Starting yarn"
   timeout 60s runuser -u hduser -- bash -x sbin/start-yarn.sh || true
