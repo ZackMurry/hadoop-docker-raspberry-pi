@@ -248,6 +248,7 @@ if [ "$node_type" = "namenode" ] ; then
   echo "Generating report"
   runuser -u hduser -- bin/hdfs dfsadmin -report || true
 else
+  runuser -u hduser -- /opt/hadoop/bin/hdfs datanode
   echo "Initialized data node"
 fi
 
