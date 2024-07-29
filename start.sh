@@ -5,7 +5,7 @@
 
 #iperf3 -s
 if [ ! -f /opt/hadoop/initialized ] ; then
-  tar -xzf /usr/src/app/hadoop-3.4.0-aarch64.tar.gz -C /opt
+  tar -xzf /usr/src/app/hadoop-3.4.0.tar.gz -C /opt
 
   ls /opt
   mv /opt/hadoop-3.4.0 /opt/hadoop
@@ -248,7 +248,6 @@ if [ "$node_type" = "namenode" ] ; then
   echo "Generating report"
   runuser -u hduser -- bin/hdfs dfsadmin -report || true
 else
-  runuser -u hduser -- /opt/hadoop/bin/hdfs datanode
   echo "Initialized data node"
 fi
 

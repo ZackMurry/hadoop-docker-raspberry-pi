@@ -16,5 +16,5 @@ source /home/hduser/.bashrc
 
 cd /usr/src/app
 
-wget https://dlcdn.apache.org/hadoop/common/hadoop-3.4.0/hadoop-3.4.0-aarch64.tar.gz
+wget https://dlcdn.apache.org/hadoop/common/hadoop-3.4.0/hadoop-3.4.0.tar.gz
 
