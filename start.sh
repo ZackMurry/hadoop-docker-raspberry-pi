@@ -1,4 +1,7 @@
+#!/bin/bash
 # Configure namenode/datanode
+
+set -Eeuo pipefail
 
 #iperf3 -s
 if [ ! -f /opt/hadoop/initialized ] ; then
