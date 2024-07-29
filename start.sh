@@ -130,7 +130,7 @@ sed -i -e "s/master/$master_name/g" mapred-site.xml
 echo "cat /opt/hadoop/etc/hadoop/workers"
 cat /opt/hadoop/etc/hadoop/workers
 
-#runuser -u hduser -- sed -i -e "s/# quorumjournal nodes (if any)/exit 0/g" /opt/hadoop/start-dfs.sh
+runuser -u hduser -- sed -i -e "s/# quorumjournal nodes (if any)/exit 0/g" /opt/hadoop/start-dfs.sh
 #cat /opt/hadoop/start-dfs.sh
 
 
