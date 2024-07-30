@@ -118,8 +118,6 @@ if [ ! -f /opt/hadoop/initialized ] ; then
       fi
       i=$((i+1))
   done
-  echo "/etc/hosts"
-  cat /etc/hosts
 
 fi
 
@@ -141,6 +139,9 @@ else
   sed -i -e "s/master/$master_name/g" hdfs-site.xml
   sed -i -e "s/master/$master_name/g" mapred-site.xml
 fi
+
+echo "/etc/hosts"
+cat /etc/hosts
 
 echo "cat /opt/hadoop/etc/hadoop/workers"
 cat /opt/hadoop/etc/hadoop/workers
