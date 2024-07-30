@@ -78,6 +78,8 @@ device_host="${FLOTO_DEVICE_UUID:0:7}"
 echo "Device host: $device_host"
 master_name=$(echo $NODES | cut -f1 -d:)
 echo "Master name: $master_name"
+hst=$(hostname)
+echo "Hostname: $hostname"
 
 if [ "$master_name" = "$device_host" ] ; then
   node_type="namenode"  
@@ -105,7 +107,9 @@ if [ ! -f /opt/hadoop/initialized ] ; then
       node_name=$(echo $node | cut -f1 -d:)
       node_ip=$(echo $node | cut -f2 -d:)
       echo "$node_name available at $node_ip"
-      echo -e "$node_ip\t$node_name" >> /etc/hosts
+      if [ "$node_name" != "$device_host" ] ; then
+        echo -e "$node_ip\t$node_name" >> /etc/hosts
+      fi
       if [ "$node_type" = "namenode" -a "$i" -ne 0 ] ; then
         echo "$node_name" >> /opt/hadoop/etc/hadoop/workers
       fi
@@ -118,17 +122,22 @@ fi
 
 # Todo: just refer to hosts using "master", "worker1", etc instead of ids
 
+
 # Replace master with actual hostname in config.xml files
 cd /opt/hadoop/etc/hadoop
-#if [ "$node_type" = "namenode" ] ; then
-echo -e "127.0.0.1\t$master_name" >> /etc/hosts
+if [ "$node_type" = "namenode" ] ; then
+  echo -e "127.0.0.1\t$hst" >> /etc/hosts
   #sed -i -e "s/master/0.0.0.0/g" core-site.xml
-#else
-sed -i -e "s/master/$master_name/g" core-site.xml
-#fi
-sed -i -e "s/master/$master_name/g" yarn-site.xml
-sed -i -e "s/master/$master_name/g" hdfs-site.xml
-sed -i -e "s/master/$master_name/g" mapred-site.xml
+  sed -i -e "s/master/$hst/g" core-site.xml
+  sed -i -e "s/master/$hst/g" yarn-site.xml
+  sed -i -e "s/master/$hst/g" hdfs-site.xml
+  sed -i -e "s/master/$hst/g" mapred-site.xml
+else
+  sed -i -e "s/master/$master_name/g" core-site.xml
+  sed -i -e "s/master/$master_name/g" yarn-site.xml
+  sed -i -e "s/master/$master_name/g" hdfs-site.xml
+  sed -i -e "s/master/$master_name/g" mapred-site.xml
+fi
 
 echo "cat /opt/hadoop/etc/hadoop/workers"
 cat /opt/hadoop/etc/hadoop/workers
