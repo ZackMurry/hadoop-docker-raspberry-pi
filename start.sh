@@ -259,8 +259,8 @@ if [ "$node_type" = "namenode" ] ; then
   tail -n +1 /opt/hadoop/logs/*
   echo "Starting yarn"
   timeout 60s runuser -u hduser -- bash -x sbin/start-yarn.sh || true
-  echo "Manually starting YARN..."
-  /opt/hadoop/bin/yarn --config /opt/hadoop/etc/hadoop --daemon start resourcemanager
+  #echo "Manually starting YARN..."
+  #/opt/hadoop/bin/yarn --config /opt/hadoop/etc/hadoop --daemon start resourcemanager
   echo "Waiting for yarn to start..."
   sleep 60s
   ls /opt/hadoop/logs
