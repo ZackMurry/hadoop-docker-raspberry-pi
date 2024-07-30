@@ -259,6 +259,8 @@ if [ "$node_type" = "namenode" ] ; then
   tail -n +1 /opt/hadoop/logs/*
   echo "Starting yarn"
   timeout 60s runuser -u hduser -- bash -x sbin/start-yarn.sh || true
+  echo "Manually starting YARN..."
+  /opt/hadoop/bin/yarn --config /opt/hadoop/etc/hadoop --daemon start resourcemanager
   echo "Waiting for yarn to start..."
   sleep 60s
   ls /opt/hadoop/logs
@@ -269,8 +271,6 @@ if [ "$node_type" = "namenode" ] ; then
   echo "Generating report"
   runuser -u hduser -- bin/hdfs dfsadmin -report || true
 
-  echo "Manually starting YARN..."
-  /opt/hadoop/bin/yarn --config /opt/hadoop/etc/hadoop --daemon start resourcemanager
 else
   echo "Initialized data node"
 fi
