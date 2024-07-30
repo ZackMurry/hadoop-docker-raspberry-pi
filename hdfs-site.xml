@@ -41,7 +41,7 @@
     </property>
     <property>
         <name>dfs.datanode.address</name>
-        <value>0.0.0.0:30007</value>
+        <value>0.0.0.0:30008</value>
     </property>
     <property>
         <name>dfs.replication</name>
