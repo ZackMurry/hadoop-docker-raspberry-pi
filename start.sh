@@ -268,6 +268,9 @@ if [ "$node_type" = "namenode" ] ; then
   jps
   echo "Generating report"
   runuser -u hduser -- bin/hdfs dfsadmin -report || true
+
+  echo "Manually starting YARN..."
+  /opt/hadoop/bin/yarn --config /opt/hadoop/etc/hadoop resourcemanager
 else
   echo "Initialized data node"
 fi
@@ -279,6 +282,7 @@ do
   echo "Staying active..."
   echo "Running jps..."
   jps
+  netstat -tupan
   tail -n +1 /opt/hadoop/logs/*
   sleep 60s
 done
