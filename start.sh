@@ -264,6 +264,8 @@ if [ "$node_type" = "namenode" ] ; then
   ls /opt/hadoop/logs
   tail -n +1 /opt/hadoop/logs/*
   netstat -tupan
+  echo "Running jps..."
+  jps
   echo "Generating report"
   runuser -u hduser -- bin/hdfs dfsadmin -report || true
 else
@@ -275,6 +277,8 @@ runuser -u hduser -- touch /opt/hadoop/initialized
 while true
 do
   echo "Staying active..."
+  echo "Running jps..."
+  jps
   tail -n +1 /opt/hadoop/logs/*
   sleep 60s
 done
