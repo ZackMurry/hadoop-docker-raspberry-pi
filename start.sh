@@ -4,6 +4,9 @@
 #set -Eeuo pipefail
 
 #iperf3 -s
+
+ifconfig
+
 if [ ! -f /opt/hadoop/initialized ] ; then
   tar -xzf /usr/src/app/hadoop-3.4.0.tar.gz -C /opt
 
@@ -236,7 +239,7 @@ if [ "$node_type" = "namenode" ] ; then
     runuser -u hduser -- bin/hdfs namenode -format
   fi
   echo "Starting namenode"
-  bin/hdfs namenode
+  #bin/hdfs namenode
   echo "Starting dfs"
   timeout 60s runuser -u hduser -- bash -x sbin/start-dfs.sh || true
   netstat -tupan
