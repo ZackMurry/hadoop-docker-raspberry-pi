@@ -270,7 +270,7 @@ if [ "$node_type" = "namenode" ] ; then
   runuser -u hduser -- bin/hdfs dfsadmin -report || true
 
   echo "Manually starting YARN..."
-  /opt/hadoop/bin/yarn --config /opt/hadoop/etc/hadoop resourcemanager
+  /opt/hadoop/bin/yarn --config /opt/hadoop/etc/hadoop --daemon start resourcemanager
 else
   echo "Initialized data node"
 fi
