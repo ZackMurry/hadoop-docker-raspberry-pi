@@ -79,7 +79,7 @@ echo "Device host: $device_host"
 master_name=$(echo $NODES | cut -f1 -d:)
 echo "Master name: $master_name"
 hst=$(hostname)
-echo "Hostname: $hostname"
+echo "Hostname: $hst"
 
 if [ "$master_name" = "$device_host" ] ; then
   node_type="namenode"  
@@ -107,7 +107,8 @@ if [ ! -f /opt/hadoop/initialized ] ; then
       node_name=$(echo $node | cut -f1 -d:)
       node_ip=$(echo $node | cut -f2 -d:)
       echo "$node_name available at $node_ip"
-      if [ "$node_type" != "namenode" -o  "$node_name" != "$device_host" ] ; then
+      #if [ "$node_type" != "namenode" -o  "$node_name" != "$device_host" ] ; then
+      if [ "$node_name" != "$device_host" ] ; then
         echo -e "$node_ip\t$node_name" >> /etc/hosts
       fi
       if [ "$node_type" = "namenode" -a "$i" -ne 0 ] ; then
