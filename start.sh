@@ -107,7 +107,7 @@ if [ ! -f /opt/hadoop/initialized ] ; then
       node_name=$(echo $node | cut -f1 -d:)
       node_ip=$(echo $node | cut -f2 -d:)
       echo "$node_name available at $node_ip"
-      if [ "$node_name" != "$device_host" ] ; then
+      if [ "$node_type" != "namenode" -o  "$node_name" != "$device_host" ] ; then
         echo -e "$node_ip\t$node_name" >> /etc/hosts
       fi
       if [ "$node_type" = "namenode" -a "$i" -ne 0 ] ; then
@@ -142,7 +142,7 @@ fi
 echo "cat /opt/hadoop/etc/hadoop/workers"
 cat /opt/hadoop/etc/hadoop/workers
 
-runuser -u hduser -- sed -i -e "s/# quorumjournal nodes (if any)/exit 0/g" /opt/hadoop/start-dfs.sh
+#runuser -u hduser -- sed -i -e "s/# quorumjournal nodes (if any)/exit 0/g" /opt/hadoop/start-dfs.sh
 #cat /opt/hadoop/start-dfs.sh
 
 
