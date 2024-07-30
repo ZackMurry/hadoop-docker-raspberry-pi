@@ -127,7 +127,7 @@ fi
 # Replace master with actual hostname in config.xml files
 cd /opt/hadoop/etc/hadoop
 if [ "$node_type" = "namenode" ] ; then
-  echo -e "127.0.0.1\t$hst" >> /etc/hosts
+  #echo -e "127.0.0.1\t$hst" >> /etc/hosts
   #sed -i -e "s/master/0.0.0.0/g" core-site.xml
   sed -i -e "s/master/$hst/g" core-site.xml
   sed -i -e "s/master/$hst/g" yarn-site.xml
