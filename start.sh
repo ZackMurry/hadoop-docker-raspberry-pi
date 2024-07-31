@@ -37,6 +37,8 @@ if [ ! -f /opt/hadoop/initialized ] ; then
   chmod +x sbin/start-dfs.sh
   mv /usr/src/app/start-yarn.sh sbin
   chmod +x sbin/start-yarn.sh
+  mv /usr/src/app/hdfs bin
+  chmod +x bin/hdfs
 
   mkdir -p /home/hduser/.ssh
   chown hduser:hadoop /home/hduser/.ssh
