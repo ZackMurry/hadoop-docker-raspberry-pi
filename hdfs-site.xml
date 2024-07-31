@@ -41,15 +41,15 @@
     </property>
     <property>
         <name>dfs.datanode.ipc.address</name>
-        <value>master:30008</value>
+        <value>0.0.0.0:30008</value>
     </property>
     <property>
         <name>dfs.datanode.http.address</name>
-        <value>master:30009</value>
+        <value>0.0.0.0:30009</value>
     </property>
     <property>
         <name>dfs.datanode.rpc-address</name>
-        <value>master:30011</value>
+        <value>0.0.0.0:30011</value>
     </property>
     <property>
         <name>dfs.datanode.address</name>
