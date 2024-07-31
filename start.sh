@@ -300,6 +300,10 @@ if [ "$node_type" = "namenode" ] ; then
 
 else
   echo "Initialized data node"
+  runuser -u hduser -- ls -l /opt/hadoop/hdfs
+  runuser -u hduser -- ls -l /opt/hadoop/hdfs/datanode
+  chown -R hduser /opt/hadoop/hdfs/datanode
+  chgrp -R hadoop /opt/hadoop/hdfs/datanode
 fi
 
 runuser -u hduser -- touch /opt/hadoop/initialized
