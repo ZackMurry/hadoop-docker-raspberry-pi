@@ -255,7 +255,7 @@ runuser -u hduser -- mkdir -p /opt/hadoop/tmp
 if [ "$node_type" = "namenode" ] ; then
   if [ ! -f /opt/hadoop/initialized ] ; then
     echo "Formatting namenode"
-    runuser -u hduser -- bin/hdfs namenode -format
+    runuser -u hduser -- bin/hdfs namenode -format --loglevel DEBUG
   fi
   echo "/opt/hadoop/bin/hdfs getconf -namenodes"
   runuser -u hduser -- /opt/hadoop/bin/hdfs getconf -namenodes
