@@ -258,9 +258,9 @@ if [ "$node_type" = "namenode" ] ; then
     runuser -u hduser -- bin/hdfs namenode -format
   fi
   echo "/opt/hadoop/bin/hdfs getconf -namenodes"
-  /opt/hadoop/bin/hdfs getconf -namenodes
+  runuser -u hduser -- /opt/hadoop/bin/hdfs getconf -namenodes
   echo "/opt/hadoop/bin/hdfs getconf -confKey yarn.resourcemanager.ha.enabled"
-  /opt/hadoop/bin/hdfs getconf -confKey yarn.resourcemanager.ha.enabled
+  runuser -u hduser -- /opt/hadoop/bin/hdfs getconf -confKey yarn.resourcemanager.ha.enabled
   echo "Starting namenode"
   #bin/hdfs namenode
   echo "Starting dfs"
@@ -287,12 +287,17 @@ fi
 
 runuser -u hduser -- touch /opt/hadoop/initialized
 
+i=0
 while true
 do
-  echo "Staying active..."
+  echo "Staying active $i..."
   echo "Running jps..."
   jps
   netstat -tupan
   tail -n +1 /opt/hadoop/logs/*
+  if [ i -eq 5 ] ; then
+    runuser -u hduser -- bash /opt/hadoop/bin/hdfs datanode
+  fi
+  i=$(i+1)
   sleep 60s
 done
