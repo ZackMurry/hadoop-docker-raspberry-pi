@@ -116,7 +116,7 @@ hadoop_uservar_su hdfs datanode "${HADOOP_HDFS_HOME}/bin/hdfs" \
 #---------------------------------------------------------
 # secondary namenodes (if any)
 
-SECONDARY_NAMENODES=$("${HADOOP_HDFS_HOME}/bin/hdfs" getconf -secondarynamenodes 2>/dev/null)
+SECONDARY_NAMENODES=$("${HADOOP_HDFS_HOME}/bin/hdfs" getconf -secondarynamenodes 2>/opt/hadoop/err.msg)
 
 if [[ -n "${SECONDARY_NAMENODES}" ]]; then
 

@@ -6,6 +6,7 @@
 #iperf3 -s
 
 ifconfig
+iptables -S
 
 if [ ! -f /opt/hadoop/initialized ] ; then
   tar -xzf /usr/src/app/hadoop-3.4.0.tar.gz -C /opt
@@ -261,6 +262,8 @@ if [ "$node_type" = "namenode" ] ; then
   runuser -u hduser -- /opt/hadoop/bin/hdfs getconf -namenodes
   echo "/opt/hadoop/bin/hdfs getconf -confKey yarn.resourcemanager.ha.enabled"
   runuser -u hduser -- /opt/hadoop/bin/hdfs getconf -confKey yarn.resourcemanager.ha.enabled
+  echo "/opt/hadoop/bin/hdfs getconf -secondarynamenodes"
+  runuser -u hduser /opt/hadoop/bin/hdfs getconf -secondarynamenodes
   echo "Starting namenode"
   #bin/hdfs namenode
   echo "Starting dfs"
@@ -281,6 +284,9 @@ if [ "$node_type" = "namenode" ] ; then
   echo "Generating report"
   runuser -u hduser -- bin/hdfs dfsadmin -report || true
 
+  echo "cat /opt/hadoop/err.msg"
+  cat /opt/hadoop/err.msg
+
 else
   echo "Initialized data node"
 fi
@@ -295,7 +301,7 @@ do
   jps
   netstat -tupan
   tail -n +1 /opt/hadoop/logs/*
-  if [ $i -eq 5 ] ; then
+  if [ "$node_type" = "datanode" -a $i -eq 6 ] ; then
     runuser -u hduser -- bash /opt/hadoop/bin/hdfs datanode
   fi
   i=$((i+1))
