@@ -31,6 +31,12 @@ if [ ! -f /opt/hadoop/initialized ] ; then
   sed -i -e "s:# export JAVA_HOME=:export JAVA_HOME=$jav_test:g" /opt/hadoop/etc/hadoop/hadoop-env.sh
   echo "export HADOOP_SSH_OPTS=\"-p 30022 -o StrictHostKeyChecking=accept-new\"" >> /opt/hadoop/etc/hadoop/hadoop-env.sh
 
+  cd /opt/hadoop
+  mv /usr/src/app/start-dfs.sh sbin
+  chmod +x sbin/start-dfs.sh
+  mv /usr/src/app/start-yarn.sh sbin
+  chmod +x sbin/start-yarn.sh
+
   mkdir -p /home/hduser/.ssh
   chown hduser:hadoop /home/hduser/.ssh
   runuser -u hduser -- ssh-keygen -t rsa -b 4096 -f /home/hduser/.ssh/id_rsa -P ""
@@ -251,8 +257,10 @@ if [ "$node_type" = "namenode" ] ; then
     echo "Formatting namenode"
     runuser -u hduser -- bin/hdfs namenode -format
   fi
-  cat "/opt/hadoop/bin/hdfs getconf -namenodes"
+  echo "/opt/hadoop/bin/hdfs getconf -namenodes"
   /opt/hadoop/bin/hdfs getconf -namenodes
+  echo "/opt/hadoop/bin/hdfs getconf -confKey yarn.resourcemanager.ha.enabled"
+  /opt/hadoop/bin/hdfs getconf -confKey yarn.resourcemanager.ha.enabled
   echo "Starting namenode"
   #bin/hdfs namenode
   echo "Starting dfs"
