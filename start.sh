@@ -259,11 +259,11 @@ if [ "$node_type" = "namenode" ] ; then
     runuser -u hduser -- bin/hdfs namenode -format --loglevel DEBUG
   fi
   echo "/opt/hadoop/bin/hdfs getconf -namenodes"
-  runuser -u hduser -- /opt/hadoop/bin/hdfs getconf -namenodes
+  runuser -u hduser -- /opt/hadoop/bin/hdfs getconf -namenodes --loglevel DEBUG
   echo "/opt/hadoop/bin/hdfs getconf -confKey yarn.resourcemanager.ha.enabled"
-  runuser -u hduser -- /opt/hadoop/bin/hdfs getconf -confKey yarn.resourcemanager.ha.enabled
+  runuser -u hduser -- /opt/hadoop/bin/hdfs getconf -confKey yarn.resourcemanager.ha.enabled --loglevel DEBUG
   echo "/opt/hadoop/bin/hdfs getconf -secondarynamenodes"
-  runuser -u hduser /opt/hadoop/bin/hdfs getconf -secondarynamenodes
+  runuser -u hduser /opt/hadoop/bin/hdfs getconf -secondarynamenodes -- loglevel DEBUG
   echo "Starting namenode"
   #bin/hdfs namenode
   echo "Starting dfs"
