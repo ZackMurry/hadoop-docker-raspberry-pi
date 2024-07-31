@@ -251,6 +251,8 @@ if [ "$node_type" = "namenode" ] ; then
     echo "Formatting namenode"
     runuser -u hduser -- bin/hdfs namenode -format
   fi
+  cat "/opt/hadoop/bin/hdfs getconf -namenodes"
+  /opt/hadoop/bin/hdfs getconf -namenodes
   echo "Starting namenode"
   #bin/hdfs namenode
   echo "Starting dfs"
