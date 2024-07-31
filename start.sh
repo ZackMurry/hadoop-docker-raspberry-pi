@@ -7,6 +7,8 @@
 
 ifconfig
 
+nohup iperf3 -s -p 30010 &
+
 if [ ! -f /opt/hadoop/initialized ] ; then
   tar -xzf /usr/src/app/hadoop-3.4.0.tar.gz -C /opt
 
@@ -200,6 +202,8 @@ if [ ! -f /opt/hadoop/initialized ] ; then
     echo "cat /home/hduser/.ssh/authorized_keys"
     runuser -u hduser -- cat /home/hduser/.ssh/authorized_keys
     if [ "$node_name" != "$device_host" ] ; then
+      echo "iperf3 -c $node_name -p 30010"
+      iperf3 -c $node_name -p 30010
       echo "Reversing ssh-copy-id..."
       (runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$node_ip "cat .ssh/id_rsa.pub") | tee -a /home/hduser/.ssh/authorized_keys
     fi
