@@ -267,7 +267,7 @@ runuser -u hduser -- mkdir -p /opt/hadoop/tmp
 if [ "$node_type" = "namenode" ] ; then
   if [ ! -f /opt/hadoop/initialized ] ; then
     echo "Formatting namenode"
-    runuser -u hduser -- bin/hdfs namenode -format --loglevel DEBUG
+    timeout 60s runuser -u hduser -- bin/hdfs namenode -format --loglevel DEBUG
   fi
   #echo "/opt/hadoop/bin/hdfs getconf -namenodes"
   #runuser -u hduser -- /opt/hadoop/bin/hdfs getconf -namenodes
@@ -293,7 +293,7 @@ if [ "$node_type" = "namenode" ] ; then
   echo "Running jps..."
   jps
   echo "Generating report"
-  runuser -u hduser -- bin/hdfs dfsadmin -report || true
+  timeout 60s runuser -u hduser -- bin/hdfs dfsadmin -report || true
 
   echo "cat /opt/hadoop/err.msg"
   cat /opt/hadoop/err.msg
