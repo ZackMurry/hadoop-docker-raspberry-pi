@@ -88,6 +88,8 @@ device_host="${FLOTO_DEVICE_UUID:0:7}"
 echo "Device host: $device_host"
 master_name=$(echo $NODES | cut -f1 -d:)
 echo "Master name: $master_name"
+master_ip=$(echo $NODES | cut -f2 -d:)
+echo "Master ip: $master_ip"
 hst=$(hostname)
 echo "Hostname: $hst"
 
@@ -144,10 +146,14 @@ if [ "$node_type" = "namenode" ] ; then
   sed -i -e "s/master/$hst/g" hdfs-site.xml
   sed -i -e "s/master/$hst/g" mapred-site.xml
 else
-  sed -i -e "s/master/$master_name/g" core-site.xml
-  sed -i -e "s/master/$master_name/g" yarn-site.xml
-  sed -i -e "s/master/$master_name/g" hdfs-site.xml
-  sed -i -e "s/master/$master_name/g" mapred-site.xml
+  sed -i -e "s/master/$master_ip/g" core-site.xml
+  sed -i -e "s/master/$master_ip/g" yarn-site.xml
+  sed -i -e "s/master/$master_ip/g" hdfs-site.xml
+  sed -i -e "s/master/$master_ip/g" mapred-site.xml
+  #sed -i -e "s/master/$master_name/g" core-site.xml
+  #sed -i -e "s/master/$master_name/g" yarn-site.xml
+  #sed -i -e "s/master/$master_name/g" hdfs-site.xml
+  #sed -i -e "s/master/$master_name/g" mapred-site.xml
 fi
 
 echo "/etc/hosts"
@@ -304,7 +310,7 @@ do
   echo "Staying active $i..."
   echo "Running jps..."
   jps
-  netstat -tupan
+  lsof -nP -iTCP -sTCP:LISTEN
   tail -n +1 /opt/hadoop/logs/*
   if [ "$node_type" = "datanode" -a $i -eq 6 ] ; then
     runuser -u hduser -- bash /opt/hadoop/bin/hdfs datanode
