@@ -6,7 +6,6 @@
 #iperf3 -s
 
 ifconfig
-iptables -S
 
 if [ ! -f /opt/hadoop/initialized ] ; then
   tar -xzf /usr/src/app/hadoop-3.4.0.tar.gz -C /opt
@@ -260,12 +259,12 @@ if [ "$node_type" = "namenode" ] ; then
     echo "Formatting namenode"
     runuser -u hduser -- bin/hdfs namenode -format --loglevel DEBUG
   fi
-  echo "/opt/hadoop/bin/hdfs getconf -namenodes"
-  runuser -u hduser -- /opt/hadoop/bin/hdfs getconf -namenodes --loglevel DEBUG
-  echo "/opt/hadoop/bin/hdfs getconf -confKey yarn.resourcemanager.ha.enabled"
-  runuser -u hduser -- /opt/hadoop/bin/hdfs getconf -confKey yarn.resourcemanager.ha.enabled --loglevel DEBUG
-  echo "/opt/hadoop/bin/hdfs getconf -secondarynamenodes"
-  runuser -u hduser /opt/hadoop/bin/hdfs getconf -secondarynamenodes -- loglevel DEBUG
+  #echo "/opt/hadoop/bin/hdfs getconf -namenodes"
+  #runuser -u hduser -- /opt/hadoop/bin/hdfs getconf -namenodes
+  #echo "/opt/hadoop/bin/hdfs getconf -confKey yarn.resourcemanager.ha.enabled"
+  #runuser -u hduser -- /opt/hadoop/bin/hdfs getconf -confKey yarn.resourcemanager.ha.enabled
+  #echo "/opt/hadoop/bin/hdfs getconf -secondarynamenodes"
+  #runuser -u hduser -- /opt/hadoop/bin/hdfs getconf -secondarynamenodes
   echo "Starting namenode"
   #bin/hdfs namenode
   echo "Starting dfs"

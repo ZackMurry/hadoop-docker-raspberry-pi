@@ -26,5 +26,9 @@
         <name>yarn.resourcemanager.address</name>
         <value>master:30006</value>
     </property>
+    <property>
+        <name>yarn.resourcemanager.ha.enabled</name>
+        <value>false</value>
+    </property>
 </configuration>
 
