@@ -295,9 +295,9 @@ do
   jps
   netstat -tupan
   tail -n +1 /opt/hadoop/logs/*
-  if [ i -eq 5 ] ; then
+  if [ $i -eq 5 ] ; then
     runuser -u hduser -- bash /opt/hadoop/bin/hdfs datanode
   fi
-  i=$(i+1)
+  i=$((i+1))
   sleep 60s
 done
