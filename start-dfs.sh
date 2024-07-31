@@ -86,11 +86,7 @@ nameStartOpt="$nameStartOpt $*"
 #---------------------------------------------------------
 # namenodes
 
-NAMENODES=$("${HADOOP_HDFS_HOME}/bin/hdfs" getconf -namenodes 2>/dev/null)
-
-if [[ -z "${NAMENODES}" ]]; then
-  NAMENODES=$(hostname)
-fi
+NAMENODES=$(hostname)
 
 echo "Starting namenodes on [${NAMENODES}]"
 hadoop_uservar_su hdfs namenode "${HADOOP_HDFS_HOME}/bin/hdfs" \
