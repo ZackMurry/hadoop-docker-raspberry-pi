@@ -88,7 +88,7 @@ device_host="${FLOTO_DEVICE_UUID:0:7}"
 echo "Device host: $device_host"
 master_name=$(echo $NODES | cut -f1 -d:)
 echo "Master name: $master_name"
-master_ip=$(echo $NODES | cut -f2 -d:)
+master_ip=$(echo $NODES | cut -f1 -d';' | cut -f2 -d:)
 echo "Master ip: $master_ip"
 hst=$(hostname)
 echo "Hostname: $hst"
