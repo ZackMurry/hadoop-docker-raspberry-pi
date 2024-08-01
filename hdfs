@@ -299,3 +299,6 @@ echo "Calling subcommand handler"
 
 # everything is in globals at this point, so call the generic handler
 hadoop_generic_java_subcmd_handler
+
+echo "Done"
+

@@ -140,8 +140,8 @@ fi
 cd /opt/hadoop/etc/hadoop
 if [ "$node_type" = "namenode" ] ; then
   #echo -e "127.0.0.1\t$hst" >> /etc/hosts
-  #sed -i -e "s/master/0.0.0.0/g" core-site.xml
-  sed -i -e "s/master/$hst/g" core-site.xml
+  sed -i -e "s/master/0.0.0.0/g" core-site.xml
+  #sed -i -e "s/master/$hst/g" core-site.xml
   sed -i -e "s/master/$hst/g" yarn-site.xml
   sed -i -e "s/master/$hst/g" hdfs-site.xml
   sed -i -e "s/master/$hst/g" mapred-site.xml
@@ -317,6 +317,8 @@ do
   echo "Running jps..."
   jps
   lsof -nP -iTCP -sTCP:LISTEN
+  echo "ps -a"
+  ps -a
   tail -n +1 /opt/hadoop/logs/*
   if [ "$node_type" = "datanode" -a $i -eq 6 ] ; then
     runuser -u hduser -- bash /opt/hadoop/bin/hdfs datanode
