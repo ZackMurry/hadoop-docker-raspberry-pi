@@ -207,9 +207,10 @@ if [ ! -f /opt/hadoop/initialized ] ; then
         echo "Skipping namenode"
         continue
       fi
-      echo "Sharing with $node_name"
+      echo "Sharing with $node_name at $node_ip"
       runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$node_ip "sed -i -e \"s/$master_name/$cni_ip/g\" /opt/hadoop/etc/hadoop/*.xml"
       runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$node_ip "cat /opt/hadoop/etc/hadoop/core-site.xml"
+      runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$node_ip "hostname"
       runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$node_ip "hostname -i"
       runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$node_ip "hostname -i" | awk '{$1=$1;print}' >> /opt/hadoop/etc/hadoop/workers
     done
