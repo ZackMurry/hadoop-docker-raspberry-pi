@@ -268,6 +268,8 @@ if [ "$node_type" = "namenode" ] ; then
   if [ ! -f /opt/hadoop/initialized ] ; then
     echo "Formatting namenode"
     timeout 60s runuser -u hduser -- bin/hdfs namenode -format --loglevel DEBUG
+    echo "ls -la /opt/hadoop/hdfs/namenode"
+    ls -la /opt/hadoop/hdfs/namenode
   fi
   #echo "/opt/hadoop/bin/hdfs getconf -namenodes"
   #runuser -u hduser -- /opt/hadoop/bin/hdfs getconf -namenodes

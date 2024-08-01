@@ -67,5 +67,22 @@
             0.0.0.0 means all available.
         </description>
     </property>
+    <property>
+        <name>dfs.namenode.servicerpc-bind-host</name>
+        <value>0.0.0.0</value> <!-- Based on the number of workers you have -->
+    </property>
+    <property>
+        <name>dfs.namenode.lifeline.rpc-bind-host</name>
+        <value>0.0.0.0</value> <!-- Based on the number of workers you have -->
+    </property>
+    <property>
+        <name>dfs.namenode.http-bind-host</name>
+        <value>0.0.0.0</value> <!-- Based on the number of workers you have -->
+    </property>
+    <property>
+        <name>dfs.namenode.https-bind-host</name>
+        <value>0.0.0.0</value> <!-- Based on the number of workers you have -->
+    </property>
+
 </configuration>
 
