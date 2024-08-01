@@ -321,6 +321,10 @@ do
   if [ "$node_type" = "datanode" -a $i -eq 6 ] ; then
     runuser -u hduser -- bash /opt/hadoop/bin/hdfs datanode
   fi
+  if [ "$node_type" = "datanode" ] ; then
+    echo "Trying telnet to $master_ip:30001"
+    timeout 5s telnet $master_ip 30001
+  fi
   i=$((i+1))
   sleep 60s
 done
