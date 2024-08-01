@@ -9,6 +9,8 @@ ifconfig
 echo "Hostname -i"
 hostname -i
 
+cni_ip=$(hostname -i)
+
 nohup iperf3 -s -p 30010 &
 
 if [ ! -f /opt/hadoop/initialized ] ; then
@@ -330,6 +332,10 @@ do
     timeout 5s telnet 127.0.0.1 30001
     echo "Trying telnet to $master_ip:30001"
     timeout 5s telnet $master_ip 30001
+    echo "Trying telnet to $cni_ip:30001"
+    timeout 5s telnet $master_ip 30001
+    echo "Testing telnet from 10.188.2.111 to $cni_ip 30001"
+    runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@10.188.2.111 "timeout 5s telnet $cni_ip 30001"
   else
     echo "Trying telnet to $master_ip:30001"
     timeout 5s telnet $master_ip 30001
