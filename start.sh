@@ -9,7 +9,8 @@ ifconfig
 echo "Hostname -i"
 hostname -i
 
-cni_ip=$(hostname -i)
+cni_ip=$(hostname -i | awk '{$1=$1;print}')
+echo "\"$cni_ip\""
 
 nohup iperf3 -s -p 30010 &
 
