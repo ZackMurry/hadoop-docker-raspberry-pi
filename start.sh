@@ -132,7 +132,7 @@ if [ ! -f /opt/hadoop/initialized ] ; then
       #fi
       if [ "$node_type" = "namenode" -a "$i" -ne 0 ] ; then
         echo -e "$node_ip\t$node_name" >> /etc/hosts
-        echo "$node_ip" >> /opt/hadoop/etc/hadoop/workers
+        #echo "$node_ip" >> /opt/hadoop/etc/hadoop/workers
       fi
       i=$((i+1))
   done
@@ -210,10 +210,11 @@ if [ ! -f /opt/hadoop/initialized ] ; then
       echo "Sharing with $node_name"
       runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$node_ip "sed -i -e \"s/$master_name/$cni_ip/g\" /opt/hadoop/etc/hadoop/*.xml"
       runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$node_ip "cat /opt/hadoop/etc/hadoop/core-site.xml"
-      
-       
-
+      runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$node_ip "hostname -i"
+      runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$node_ip "hostname -i" | awk '{$1=$1;print}' >> /opt/hadoop/etc/hadoop/workers
     done
+    echo "cat /opt/hadoop/etc/hadoop/workers"
+    cat /opt/hadoop/etc/hadoop/workers
   fi 
 fi
 
@@ -348,9 +349,6 @@ do
   ps -a
   tail -n +1 /opt/hadoop/logs/*
   cat /opt/hadoop/etc/hadoop/core-site.xml
-  if [ "$node_type" = "datanode" -a $i -eq 6 ] ; then
-    runuser -u hduser -- bash /opt/hadoop/bin/hdfs datanode
-  fi
   if [ "$node_type" = "namenode" ] ; then
     echo "Trying telnet to 127.0.0.1:30001"
     timeout 5s telnet 127.0.0.1 30001
