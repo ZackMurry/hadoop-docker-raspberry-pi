@@ -218,6 +218,9 @@ if [ ! -f /opt/hadoop/initialized ] ; then
       runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$node_ip "hostname"
       runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$node_ip "hostname -i"
       runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$node_ip "hostname -i" | awk '{$1=$1;print}' >> /opt/hadoop/etc/hadoop/workers
+      node_cni_ip=$(runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$node_ip "hostname -i" | awk '{$1=$1;print}')
+      echo "Testing SSH to CNI IP $node_cni_ip"
+      runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$node_cni_ip "hostname"
     done
     echo "cat /opt/hadoop/etc/hadoop/workers"
     cat /opt/hadoop/etc/hadoop/workers
