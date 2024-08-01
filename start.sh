@@ -199,6 +199,10 @@ if [ ! -f /opt/hadoop/initialized ] ; then
   done
   if [ "$node_type" = "namenode" ] ; then
     echo "Setting up CNI IPs"
+    echo "Testing 10.188.0.241"
+    runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@10.188.0.241 "hostname && hostname -i"
+    echo "Testing 10.188.2.111"
+    runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@10.188.2.111 "hostname && hostname -i"
     for node in $(echo $NODES | tr ";" "\n")
     do
       node_name=$(echo $node | cut -f1 -d:)
