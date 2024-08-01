@@ -140,8 +140,8 @@ fi
 cd /opt/hadoop/etc/hadoop
 if [ "$node_type" = "namenode" ] ; then
   #echo -e "127.0.0.1\t$hst" >> /etc/hosts
-  sed -i -e "s/master/0.0.0.0/g" core-site.xml
-  #sed -i -e "s/master/$hst/g" core-site.xml
+  #sed -i -e "s/master/0.0.0.0/g" core-site.xml
+  sed -i -e "s/master/$hst/g" core-site.xml
   sed -i -e "s/master/$hst/g" yarn-site.xml
   sed -i -e "s/master/$hst/g" hdfs-site.xml
   sed -i -e "s/master/$hst/g" mapred-site.xml
