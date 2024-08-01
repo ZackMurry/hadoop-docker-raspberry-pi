@@ -202,7 +202,7 @@ if [ ! -f /opt/hadoop/initialized ] ; then
     do
       node_name=$(echo $node | cut -f1 -d:)
       node_ip=$(echo $node | cut -f2 -d:)
-      if [ "$node_name" != "$device_host" ] ; then
+      if [ "$node_name" = "$device_host" ] ; then
         echo "Skipping namenode"
         continue
       fi
