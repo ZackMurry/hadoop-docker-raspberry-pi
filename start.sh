@@ -206,8 +206,8 @@ if [ ! -f /opt/hadoop/initialized ] ; then
         continue
       fi
       echo "Sharing with $node_name"
-      runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$node_ip "echo -e $device_host\t$cni_ip >> /etc/hosts"
-      runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$node_ip "cat /etc/hosts"
+      runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$node_ip "sed -i -e "s/$master_name/$cni_ip/g" /opt/hadoop/etc/hadoop/*.xml"
+      runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$node_ip "cat /opt/hadoop/etc/hadoop/core-site.xml"
       
        
 
@@ -343,7 +343,7 @@ do
   echo "ps -a"
   ps -a
   tail -n +1 /opt/hadoop/logs/*
-  cat /etc/hosts
+  cat /opt/hadoop/etc/hadoop/core-site.xml
   if [ "$node_type" = "datanode" -a $i -eq 6 ] ; then
     runuser -u hduser -- bash /opt/hadoop/bin/hdfs datanode
   fi
