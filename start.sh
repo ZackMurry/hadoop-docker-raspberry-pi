@@ -69,6 +69,7 @@ if [ ! -f /opt/hadoop/initialized ] ; then
   #cat /etc/ssh/sshd_config
   #runuser -u hduser -- ssh-keygen -A
   #echo "ls /etc/ssh"
+
   #ls /etc/ssh
   #echo "Creating ssh hostkey"
   ssh-keygen -A
@@ -78,7 +79,6 @@ if [ ! -f /opt/hadoop/initialized ] ; then
 fi
 
 cd /opt/hadoop
-
 
 #echo "/opt/hadoop/etc/hadoop/hadoop-env.sh"
 #cat /opt/hadoop/etc/hadoop/hadoop-env.sh
@@ -123,14 +123,14 @@ if [ ! -f /opt/hadoop/initialized ] ; then
       node_name=$(echo $node | cut -f1 -d:)
       node_ip=$(echo $node | cut -f2 -d:)
       echo "$node_name available at $node_ip"
-      if [ "$node_name" != "$device_host" ] ; then
+      #if [ "$node_name" != "$device_host" ] ; then
       #if [ "$node_type" != "namenode" -o  "$node_name" != "$device_host" ] ; then
-        echo -e "$node_ip\t$node_name" >> /etc/hosts
-      else
-        echo -e "127.0.0.1\t$node_name" >> /etc/hosts
-      fi
+      #echo -e "$node_ip\t$node_name" >> /etc/hosts
+      #else
+      #  echo -e "127.0.0.1\t$node_name" >> /etc/hosts
+      #fi
       if [ "$node_type" = "namenode" -a "$i" -ne 0 ] ; then
-        echo "$node_name" >> /opt/hadoop/etc/hadoop/workers
+        echo "$node_ip" >> /opt/hadoop/etc/hadoop/workers
       fi
       i=$((i+1))
   done
@@ -139,32 +139,6 @@ fi
 
 # Todo: just refer to hosts using "master", "worker1", etc instead of ids
 
-
-# Replace master with actual hostname in config.xml files
-cd /opt/hadoop/etc/hadoop
-if [ "$node_type" = "namenode" ] ; then
-  #echo -e "127.0.0.1\t$hst" >> /etc/hosts
-  #sed -i -e "s/master/0.0.0.0/g" core-site.xml
-  sed -i -e "s/master/$hst/g" core-site.xml
-  sed -i -e "s/master/$hst/g" yarn-site.xml
-  sed -i -e "s/master/$hst/g" hdfs-site.xml
-  sed -i -e "s/master/$hst/g" mapred-site.xml
-else
-  sed -i -e "s/master/$master_ip/g" core-site.xml
-  sed -i -e "s/master/$master_ip/g" yarn-site.xml
-  sed -i -e "s/master/$master_ip/g" hdfs-site.xml
-  sed -i -e "s/master/$master_ip/g" mapred-site.xml
-  #sed -i -e "s/master/$master_name/g" core-site.xml
-  #sed -i -e "s/master/$master_name/g" yarn-site.xml
-  #sed -i -e "s/master/$master_name/g" hdfs-site.xml
-  #sed -i -e "s/master/$master_name/g" mapred-site.xml
-fi
-
-echo "/etc/hosts"
-cat /etc/hosts
-
-echo "cat /opt/hadoop/etc/hadoop/workers"
-cat /opt/hadoop/etc/hadoop/workers
 
 #runuser -u hduser -- sed -i -e "s/# quorumjournal nodes (if any)/exit 0/g" /opt/hadoop/start-dfs.sh
 #cat /opt/hadoop/start-dfs.sh
@@ -221,7 +195,52 @@ if [ ! -f /opt/hadoop/initialized ] ; then
     cat /home/hduser/.ssh/authorized_keys
 
   done
+  if [ "$node_type" = "namenode" ] ; then
+    echo "Setting up CNI IPs"
+    for node in $(echo $NODES | tr ";" "\n")
+    do
+      node_name=$(echo $node | cut -f1 -d:)
+      node_ip=$(echo $node | cut -f2 -d:)
+      if [ "$node_name" != "$device_host" ] ; then
+        echo "Skipping namenode"
+        continue
+      fi
+      echo "Sharing with $node_name"
+      runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$node_ip "echo -e $device_host\t$cni_ip >> /etc/hosts"
+      runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$node_ip "cat /etc/hosts"
+      
+       
+
+    done
+  fi 
 fi
+
+# Replace master with actual hostname in config.xml files
+cd /opt/hadoop/etc/hadoop
+if [ "$node_type" = "namenode" ] ; then
+  #echo -e "127.0.0.1\t$hst" >> /etc/hosts
+  #sed -i -e "s/master/0.0.0.0/g" core-site.xml
+  sed -i -e "s/master/$hst/g" core-site.xml
+  sed -i -e "s/master/$hst/g" yarn-site.xml
+  sed -i -e "s/master/$hst/g" hdfs-site.xml
+  sed -i -e "s/master/$hst/g" mapred-site.xml
+else
+  #sed -i -e "s/master/$master_ip/g" core-site.xml
+  #sed -i -e "s/master/$master_ip/g" yarn-site.xml
+  #sed -i -e "s/master/$master_ip/g" hdfs-site.xml
+  #sed -i -e "s/master/$master_ip/g" mapred-site.xml
+  sed -i -e "s/master/$master_name/g" core-site.xml
+  sed -i -e "s/master/$master_name/g" yarn-site.xml
+  sed -i -e "s/master/$master_name/g" hdfs-site.xml
+  sed -i -e "s/master/$master_name/g" mapred-site.xml
+fi
+
+echo "/etc/hosts"
+cat /etc/hosts
+
+echo "cat /opt/hadoop/etc/hadoop/workers"
+cat /opt/hadoop/etc/hadoop/workers
+
 
 cat /home/hduser/.ssh/id_rsa.pub >> /home/hduser/.ssh/authorized_keys
 
@@ -324,6 +343,7 @@ do
   echo "ps -a"
   ps -a
   tail -n +1 /opt/hadoop/logs/*
+  cat /etc/hosts
   if [ "$node_type" = "datanode" -a $i -eq 6 ] ; then
     runuser -u hduser -- bash /opt/hadoop/bin/hdfs datanode
   fi
