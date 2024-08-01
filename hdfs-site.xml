@@ -84,5 +84,10 @@
         <value>0.0.0.0</value> <!-- Based on the number of workers you have -->
     </property>
 
+
+    <property>
+        <name>dfs.permissions</name>
+        <value>false</value>
+    </property>
 </configuration>
 
