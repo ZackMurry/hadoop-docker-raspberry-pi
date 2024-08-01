@@ -206,7 +206,7 @@ if [ ! -f /opt/hadoop/initialized ] ; then
         continue
       fi
       echo "Sharing with $node_name"
-      runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$node_ip "sed -i -e "s/$master_name/$cni_ip/g" /opt/hadoop/etc/hadoop/*.xml"
+      runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$node_ip "sed -i -e \"s/$master_name/$cni_ip/g\" /opt/hadoop/etc/hadoop/*.xml"
       runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$node_ip "cat /opt/hadoop/etc/hadoop/core-site.xml"
       
        
@@ -286,6 +286,8 @@ export HADOOP_OPTS="-Djava.library.path=$HADOOP_HOME/lib"
 
 runuser -u hduser -- mkdir -p /opt/hadoop/logs
 runuser -u hduser -- mkdir -p /opt/hadoop/tmp
+
+cd /opt/hadoop
 
 if [ "$node_type" = "namenode" ] ; then
   if [ ! -f /opt/hadoop/initialized ] ; then
