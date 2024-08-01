@@ -6,6 +6,8 @@
 #iperf3 -s
 
 ifconfig
+echo "Hostname -i"
+hostname -i
 
 nohup iperf3 -s -p 30010 &
 
