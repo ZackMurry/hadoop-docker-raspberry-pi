@@ -231,7 +231,7 @@ function hdfscmd_case
   esac
 }
 
-echo "After case"
+#echo "After case"
 
 # let's locate libexec...
 if [[ -n "${HADOOP_HOME}" ]]; then
@@ -241,7 +241,7 @@ else
   HADOOP_DEFAULT_LIBEXEC_DIR="${bin}/../libexec"
 fi
 
-echo "Running libexec"
+#echo "Running libexec"
 
 HADOOP_LIBEXEC_DIR="${HADOOP_LIBEXEC_DIR:-$HADOOP_DEFAULT_LIBEXEC_DIR}"
 HADOOP_NEW_CONFIG=true
@@ -264,7 +264,7 @@ fi
 HADOOP_SUBCMD=$1
 shift
 
-echo "if need reexec"
+#echo "if need reexec"
 if hadoop_need_reexec hdfs "${HADOOP_SUBCMD}"; then
   hadoop_uservar_su hdfs "${HADOOP_SUBCMD}" \
     "${MYNAME}" \
@@ -277,7 +277,7 @@ hadoop_verify_user_perm "${HADOOP_SHELL_EXECNAME}" "${HADOOP_SUBCMD}"
 
 HADOOP_SUBCMD_ARGS=("$@")
 
-echo "hdfs subcommand"
+#echo "hdfs subcommand"
 if declare -f hdfs_subcommand_"${HADOOP_SUBCMD}" >/dev/null 2>&1; then
   hadoop_debug "Calling dynamically: hdfs_subcommand_${HADOOP_SUBCMD} ${HADOOP_SUBCMD_ARGS[*]}"
   "hdfs_subcommand_${HADOOP_SUBCMD}" "${HADOOP_SUBCMD_ARGS[@]}"
@@ -295,10 +295,10 @@ fi
 
 hadoop_subcommand_opts "${HADOOP_SHELL_EXECNAME}" "${HADOOP_SUBCMD}"
 
-echo "Calling subcommand handler"
+#echo "Calling subcommand handler"
 
 # everything is in globals at this point, so call the generic handler
 hadoop_generic_java_subcmd_handler
 
-echo "Done"
+#echo "Done"
 
