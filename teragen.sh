@@ -85,8 +85,8 @@ OUTPUT=/tera/${SIZE}-terasort-input
 echo "bin/mapred job -list"
 bin/mapred job -list
 # Delete the output directory
-echo "hadoop rm $OUTPUT"
-bin/hadoop fs -rm -r -f -skipTrash ${OUTPUT}
+#echo "hadoop rm $OUTPUT"
+#bin/hadoop fs -rm -r -f -skipTrash ${OUTPUT}
 
 #-Dmapreduce.map.output.compress.codec=org.apache.hadoop.io.compress.Lz4Codec
 
