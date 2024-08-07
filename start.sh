@@ -349,7 +349,9 @@ if [ "$node_type" = "namenode" ] ; then
   echo "$SSH_PASS" | runuser -u hduser -- sshpass ssh -R 30022:localhost:30022 -p 443 zack@ara.zackmurry.com
 
   echo "Starting teragen with SIZE=1M"
-  SIZE=1M runuser -u hduser -- bash /opt/hadoop/teragen.sh
+  date
+  SIZE=1M runuser -u hduser -- timeout 120s bash /opt/hadoop/teragen.sh
+  date
 
 else
   echo "Initialized data node"
