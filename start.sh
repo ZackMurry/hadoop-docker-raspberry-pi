@@ -132,7 +132,7 @@ if [ ! -f /opt/hadoop/initialized ] ; then
       #fi
       if [ "$node_type" = "namenode" -a "$i" -ne 0 ] ; then
         echo -e "$node_ip\t$node_name" >> /etc/hosts
-        #echo "$node_ip" >> /opt/hadoop/etc/hadoop/workers
+        echo "$node_ip" >> /opt/hadoop/etc/hadoop/workers
       fi
       i=$((i+1))
   done
@@ -197,7 +197,8 @@ if [ ! -f /opt/hadoop/initialized ] ; then
     cat /home/hduser/.ssh/authorized_keys
 
   done
-  if [ "$node_type" = "namenode" ] ; then
+  if false ; then
+  #if [ "$node_type" = "namenode" ] ; then
     echo "Setting up CNI IPs"
     echo "Testing 10.188.0.241"
     runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@10.188.0.241 "hostname && hostname -i"
