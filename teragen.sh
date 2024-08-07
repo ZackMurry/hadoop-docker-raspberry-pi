@@ -82,8 +82,8 @@ OUTPUT=/tera/${SIZE}-terasort-input
 # teragen.sh
 # Kill any running MapReduce jobs
 #bin/mapred job -list | grep job_ | awk ' { system("mapred job -kill " $1) } '
-echo "bin/mapred job -list"
-bin/mapred job -list
+#echo "bin/mapred job -list"
+#bin/mapred job -list
 # Delete the output directory
 #echo "hadoop rm $OUTPUT"
 #bin/hadoop fs -rm -r -f -skipTrash ${OUTPUT}
