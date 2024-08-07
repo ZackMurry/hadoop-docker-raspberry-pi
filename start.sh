@@ -132,7 +132,7 @@ if [ ! -f /opt/hadoop/initialized ] ; then
       #fi
       if [ "$node_type" = "namenode" -a "$i" -ne 0 ] ; then
         echo -e "$node_ip\t$node_name" >> /etc/hosts
-        echo "$node_ip" >> /opt/hadoop/etc/hadoop/workers
+        #echo "$node_ip" >> /opt/hadoop/etc/hadoop/workers
       fi
       i=$((i+1))
   done
