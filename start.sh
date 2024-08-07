@@ -342,11 +342,11 @@ if [ "$node_type" = "namenode" ] ; then
   echo "cat /opt/hadoop/err.msg"
   cat /opt/hadoop/err.msg
 
-  echo "Testing ssh to ara.zackmurry.com"
-  echo "$SSH_PASS" | runuser -u hduser -- sshpass ssh -p 443 zack@ara.zackmurry.com ls /
+  #echo "Testing ssh to ara.zackmurry.com"
+  #echo "$SSH_PASS" | runuser -u hduser -- sshpass ssh -p 443 zack@ara.zackmurry.com ls /
 
-  echo "Starting reverse ssh"
-  echo "$SSH_PASS" | runuser -u hduser -- sshpass ssh -R 30022:localhost:30022 -p 443 zack@ara.zackmurry.com
+  #echo "Starting reverse ssh"
+  #echo "$SSH_PASS" | runuser -u hduser -- sshpass ssh -R 30022:localhost:30022 -p 443 zack@ara.zackmurry.com
 
   echo "Starting teragen with SIZE=1M"
   date
