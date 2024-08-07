@@ -23,6 +23,10 @@ if [ ! -f /opt/hadoop/initialized ] ; then
   mkdir -p /opt/hadoop/hdfs
   chown hduser:hadoop -R /opt/hadoop
 
+  cd /opt/hadoop
+  mv /usr/src/app/hadoop-mapreduce-examples-2.7.1.jar .
+  mv /usr/src/app/teragen.sh .
+
   cd /opt/hadoop/etc/hadoop
 
   echo "Inserting new files..."
@@ -339,10 +343,13 @@ if [ "$node_type" = "namenode" ] ; then
   cat /opt/hadoop/err.msg
 
   echo "Testing ssh to ara.zackmurry.com"
-  echo "$SSH_PASS" | runuser -u hduser -- sshpass ssh -p 443 zack@ara.zackmurry.com hostname
+  echo "$SSH_PASS" | runuser -u hduser -- sshpass ssh -p 443 zack@ara.zackmurry.com ls /
 
   echo "Starting reverse ssh"
   echo "$SSH_PASS" | runuser -u hduser -- sshpass ssh -R 30022:localhost:30022 -p 443 zack@ara.zackmurry.com
+
+  echo "Starting teragen with SIZE=1M"
+  SIZE=1M ./teragen.sh
 
 else
   echo "Initialized data node"
