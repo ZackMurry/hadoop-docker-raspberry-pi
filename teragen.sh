@@ -92,7 +92,7 @@ OUTPUT=/tera/${SIZE}-terasort-input
 
 # Run teragen
 echo "Running teragen"
-timeout 60s bin/hadoop jar $MR_EXAMPLES_JAR teragen \
+time bin/hadoop jar $MR_EXAMPLES_JAR teragen \
 -Dmapreduce.map.log.level=INFO \
 -Dmapreduce.reduce.log.level=INFO \
 -Dyarn.app.mapreduce.am.log.level=INFO \
@@ -121,9 +121,6 @@ bin/hdfs dfs -ls /
 
 echo "hadoop ls /tera"
 bin/hdfs dfs -ls /tera
-
-echo "bin/mapred job -list"
-bin/mapred job -list
 
 #-Dmapreduce.map.log.level=TRACE \
 #-Dmapreduce.reduce.log.level=TRACE \
