@@ -360,14 +360,14 @@ do
   tail -n +1 /opt/hadoop/logs/*
   cat /opt/hadoop/etc/hadoop/core-site.xml
   if [ "$node_type" = "namenode" ] ; then
-    echo "Trying telnet to 127.0.0.1:30001"
-    timeout 5s telnet 127.0.0.1 30001
-    echo "Trying telnet to $master_ip:30001"
-    timeout 5s telnet $master_ip 30001
-    echo "Trying telnet to $cni_ip:30001"
-    timeout 5s telnet $master_ip 30001
-    echo "Testing telnet from 10.188.2.111 to $cni_ip 30001"
-    runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@10.188.2.111 "timeout 5s telnet $cni_ip 30001"
+    #echo "Trying telnet to 127.0.0.1:30001"
+    #timeout 5s telnet 127.0.0.1 30001
+    #echo "Trying telnet to $master_ip:30001"
+    #timeout 5s telnet $master_ip 30001
+    #echo "Trying telnet to $cni_ip:30001"
+    #timeout 5s telnet $master_ip 30001
+    echo "Generating report"
+    timeout 60s runuser -u hduser -- bin/hdfs dfsadmin -report || true
   else
     echo "Trying telnet to $master_ip:30001"
     timeout 5s telnet $master_ip 30001
