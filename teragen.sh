@@ -1,6 +1,8 @@
 #!/bin/bash
 
-trap "" HUP
+echo "Running teragen"
+
+#trap "" HUP
 
 #if [ $EUID -eq 0 ]; then
 #   echo "this script must not be run as root. su to hdfs user to run"
@@ -65,6 +67,11 @@ then
     mkdir ./$LOGDIR
 fi
 
+echo "Creating tera folder"
+bin/hadoop fs -mkdir /tera
+echo "hadoop ls /"
+bin/hadoop fs -ls /
+
 DATE=`date +%Y-%m-%d:%H:%M:%S`
 
 RESULTSFILE="./$LOGDIR/teragen_results_$DATE"
@@ -76,11 +83,13 @@ OUTPUT=/tera/${SIZE}-terasort-input
 # Kill any running MapReduce jobs
 #bin/mapred job -list | grep job_ | awk ' { system("mapred job -kill " $1) } '
 # Delete the output directory
+echo "hadoop rm $OUTPUT"
 bin/hadoop fs -rm -r -f -skipTrash ${OUTPUT}
 
 #-Dmapreduce.map.output.compress.codec=org.apache.hadoop.io.compress.Lz4Codec
 
 # Run teragen
+echo "Running teragen"
 time bin/hadoop jar $MR_EXAMPLES_JAR teragen \
 -Dmapreduce.map.log.level=INFO \
 -Dmapreduce.reduce.log.level=INFO \
@@ -101,6 +110,8 @@ time bin/hadoop jar $MR_EXAMPLES_JAR teragen \
 -Dyarn.app.mapreduce.am.resource.mb=1024 \
 -Dmapred.map.tasks=92 \
 ${ROWS} ${OUTPUT} >> $RESULTSFILE 2>&1
+
+echo "Running teragen (done)"
 
 #-Dmapreduce.map.log.level=TRACE \
 #-Dmapreduce.reduce.log.level=TRACE \
