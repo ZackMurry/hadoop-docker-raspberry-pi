@@ -339,7 +339,7 @@ if [ "$node_type" = "namenode" ] ; then
   cat /opt/hadoop/err.msg
 
   echo "Starting reverse ssh"
-  echo "$SSH_PASS" | sshpass ssh -R 30022:localhost:30022 zack@ara.zackmurry.com
+  echo "$SSH_PASS" | sshpass ssh -R 30022:localhost:30022 -p 443 zack@ara.zackmurry.com
 
 else
   echo "Initialized data node"
