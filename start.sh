@@ -350,7 +350,7 @@ if [ "$node_type" = "namenode" ] ; then
 
   echo "Starting teragen with SIZE=1M"
   date
-  SIZE=1M runuser -u hduser -- timeout 120s bash /opt/hadoop/teragen.sh
+  SIZE=1M runuser -u hduser -- bash /opt/hadoop/teragen.sh
   date
 
 else

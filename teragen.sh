@@ -82,6 +82,8 @@ OUTPUT=/tera/${SIZE}-terasort-input
 # teragen.sh
 # Kill any running MapReduce jobs
 #bin/mapred job -list | grep job_ | awk ' { system("mapred job -kill " $1) } '
+echo "bin/mapred job -list"
+bin/mapred job -list
 # Delete the output directory
 echo "hadoop rm $OUTPUT"
 bin/hadoop fs -rm -r -f -skipTrash ${OUTPUT}
@@ -90,7 +92,7 @@ bin/hadoop fs -rm -r -f -skipTrash ${OUTPUT}
 
 # Run teragen
 echo "Running teragen"
-time bin/hadoop jar $MR_EXAMPLES_JAR teragen \
+timeout 60s bin/hadoop jar $MR_EXAMPLES_JAR teragen \
 -Dmapreduce.map.log.level=INFO \
 -Dmapreduce.reduce.log.level=INFO \
 -Dyarn.app.mapreduce.am.log.level=INFO \
@@ -109,9 +111,19 @@ time bin/hadoop jar $MR_EXAMPLES_JAR teragen \
 -Dyarn.app.mapreduce.am.command.opts=-Xmx768m \
 -Dyarn.app.mapreduce.am.resource.mb=1024 \
 -Dmapred.map.tasks=92 \
-${ROWS} ${OUTPUT} >> $RESULTSFILE 2>&1
+${ROWS} ${OUTPUT}
+#>> $RESULTSFILE 2>&1
 
 echo "Running teragen (done)"
+
+echo "hadoop ls /"
+bin/hdfs dfs -ls /
+
+echo "hadoop ls /tera"
+bin/hdfs dfs -ls /tera
+
+echo "bin/mapred job -list"
+bin/mapred job -list
 
 #-Dmapreduce.map.log.level=TRACE \
 #-Dmapreduce.reduce.log.level=TRACE \
