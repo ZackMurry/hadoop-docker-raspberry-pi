@@ -68,9 +68,9 @@ then
 fi
 
 echo "Creating tera folder"
-bin/hadoop fs -mkdir /tera
+bin/hdfs dfs -mkdir /tera
 echo "hadoop ls /"
-bin/hadoop fs -ls /
+bin/hdfs dfs -ls /
 
 DATE=`date +%Y-%m-%d:%H:%M:%S`
 
