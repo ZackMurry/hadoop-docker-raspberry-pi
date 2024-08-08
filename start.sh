@@ -123,7 +123,7 @@ if [ ! -f /opt/hadoop/initialized ] ; then
   #cat /opt/hadoop/etc/hadoop/workers
   runuser -u hduser -- rm /opt/hadoop/etc/hadoop/workers
   runuser -u hduser -- touch /opt/hadoop/etc/hadoop/workers
-  echo "$cni_ip" >> /opt/hadoop/etc/hadoop/workers
+  #echo "$cni_ip" >> /opt/hadoop/etc/hadoop/workers
   for node in $(echo $NODES | tr ";" "\n")
   do
       node_name=$(echo $node | cut -f1 -d:)
