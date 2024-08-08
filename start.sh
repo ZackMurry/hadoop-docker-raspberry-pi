@@ -323,9 +323,26 @@ if [ "$node_type" = "namenode" ] ; then
   echo "Starting namenode"
   #bin/hdfs namenode
   echo "Starting dfs"
-  timeout 60s runuser -u hduser -- bash -x sbin/start-dfs.sh || true
-  netstat -tupan
+  #timeout 60s runuser -u hduser -- bash -x sbin/start-dfs.sh || true
+
+  echo "Starting dfs namenode"
+  runuser -u hduser -- /opt/hadoop/bin/hdfs --daemon start namenode
   tail -n +1 /opt/hadoop/logs/*
+
+  echo "Starting dfs datanode"
+  cat /opt/hadoop/etc/hadoop/workers | while read line
+  do
+    echo "\"$line\""
+    if [[ -n "$line" ]] ; then
+      echo "Not empty... SSHing into $line"
+      runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$line "hostname"
+      runuser -u hduser -- ssh -p 30022 -o StrictHostKeyChecking=accept-new hduser@$line "/opt/hadoop/bin/hdfs --daemon start datanode"
+    fi
+  done
+
+
+  netstat -tupan
+
   echo "Starting yarn"
   timeout 60s runuser -u hduser -- bash -x sbin/start-yarn.sh || true
   #echo "Manually starting YARN..."

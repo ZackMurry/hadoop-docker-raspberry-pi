@@ -1,7 +1,7 @@
 #!/bin/bash
 
-for size in "1M" "10M" "100M" "1G" "10G" ; do
-  echo Size: $size
-
+cat /opt/hadoop/etc/hadoop/workers | while read line
+do
+  echo "\"$line\""
 done
 
