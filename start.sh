@@ -327,7 +327,8 @@ if [ "$node_type" = "namenode" ] ; then
   #timeout 60s runuser -u hduser -- bash -x sbin/start-dfs.sh || true
 
   echo "Starting dfs namenode"
-  runuser -u hduser -- /opt/hadoop/bin/hdfs --daemon start namenode
+  #runuser -u hduser -- /opt/hadoop/bin/hdfs --daemon start namenode
+  runuser -u hduser -- /opt/hadoop/bin/hdfs namenode
   tail -n +1 /opt/hadoop/logs/*
 
   echo "Starting dfs datanode"
