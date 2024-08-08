@@ -13,6 +13,7 @@ cni_ip=$(hostname -i | awk '{$1=$1;print}')
 echo "\"$cni_ip\""
 
 nohup iperf3 -s -p 30010 &
+export HADOOP_ROOT_LOGGER=DEBUG,console
 
 if [ ! -f /opt/hadoop/initialized ] ; then
   tar -xzf /usr/src/app/hadoop-3.4.0.tar.gz -C /opt
@@ -392,10 +393,6 @@ do
   ps -a
   tail -n +1 /opt/hadoop/logs/*
   cat /opt/hadoop/etc/hadoop/core-site.xml
-  if [ $i -eq 6 ] ; then
-      export HADOOP_ROOT_LOGGER=DEBUG,console
-      runuser -u hduser -- /opt/hadoop/bin/hdfs datanode
-  fi
   if [ "$node_type" = "namenode" ] ; then
     #echo "Trying telnet to 127.0.0.1:30001"
     #timeout 5s telnet 127.0.0.1 30001
