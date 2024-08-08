@@ -375,6 +375,10 @@ do
   ps -a
   tail -n +1 /opt/hadoop/logs/*
   cat /opt/hadoop/etc/hadoop/core-site.xml
+  if [ $i -eq 6 ] ; then
+      export HADOOP_ROOT_LOGGER=DEBUG,console
+      runuser -u hduser -- /opt/hadoop/bin/hdfs datanode
+  fi
   if [ "$node_type" = "namenode" ] ; then
     #echo "Trying telnet to 127.0.0.1:30001"
     #timeout 5s telnet 127.0.0.1 30001
