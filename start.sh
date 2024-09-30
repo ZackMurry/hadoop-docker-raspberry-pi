@@ -2,7 +2,6 @@
 # Configure namenode/datanode
 
 #set -Eeuo pipefail
-
 #iperf3 -s
 
 ifconfig
@@ -236,23 +235,23 @@ fi
 
 # Replace master with actual hostname in config.xml files
 cd /opt/hadoop/etc/hadoop
-if [ "$node_type" = "namenode" ] ; then
-  #echo -e "127.0.0.1\t$hst" >> /etc/hosts
-  #sed -i -e "s/master/0.0.0.0/g" core-site.xml
-  sed -i -e "s/master/$hst/g" core-site.xml
-  sed -i -e "s/master/$hst/g" yarn-site.xml
-  sed -i -e "s/master/$hst/g" hdfs-site.xml
-  sed -i -e "s/master/$hst/g" mapred-site.xml
-else
+#if [ "$node_type" = "namenode" ] ; then
+#  #sed -i -e "s/master/0.0.0.0/g" core-site.xml
+#  sed -i -e "s/master/$hst/g" core-site.xml
+#  sed -i -e "s/master/$hst/g" yarn-site.xml
+#  sed -i -e "s/master/$hst/g" hdfs-site.xml
+#  sed -i -e "s/master/$hst/g" mapred-site.xml
+#else
   #sed -i -e "s/master/$master_ip/g" core-site.xml
   #sed -i -e "s/master/$master_ip/g" yarn-site.xml
   #sed -i -e "s/master/$master_ip/g" hdfs-site.xml
   #sed -i -e "s/master/$master_ip/g" mapred-site.xml
-  sed -i -e "s/master/$master_name/g" core-site.xml
-  sed -i -e "s/master/$master_name/g" yarn-site.xml
-  sed -i -e "s/master/$master_name/g" hdfs-site.xml
-  sed -i -e "s/master/$master_name/g" mapred-site.xml
-fi
+echo -e "127.0.0.1\t$hst" >> /etc/hosts
+sed -i -e "s/master/$master_name/g" core-site.xml
+sed -i -e "s/master/$master_name/g" yarn-site.xml
+sed -i -e "s/master/$master_name/g" hdfs-site.xml
+sed -i -e "s/master/$master_name/g" mapred-site.xml
+#fi
 
 echo "/etc/hosts"
 cat /etc/hosts
@@ -349,6 +348,7 @@ if [ "$node_type" = "namenode" ] ; then
   timeout 60s runuser -u hduser -- bash -x sbin/start-yarn.sh || true
   #echo "Manually starting YARN..."
   #/opt/hadoop/bin/yarn --config /opt/hadoop/etc/hadoop --daemon start resourcemanager
+  runuser -u hduser -- bin/hdfs dfsadmin -safemode leave
   echo "Waiting for yarn to start..."
   sleep 60s
   ls /opt/hadoop/logs
